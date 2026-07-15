@@ -4,8 +4,9 @@ const path = require("path");
 // If DATABASE_PATH is provided (Render), use it.
 // Otherwise use local database.
 const DB_PATH =
-  process.env.DATABASE_PATH ||
-  path.join(__dirname, "../../../../database/kapdaghar.db");
+  process.env.NODE_ENV === "production"
+    ? path.join(__dirname, "../../database/kapdaghar.db")
+    : path.join(__dirname, "../../../../database/kapdaghar.db");
 
 console.log("Using DB at:", DB_PATH);
 
