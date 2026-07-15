@@ -9,7 +9,7 @@
 │   │   ├── package-lock.json
 │   │   ├── package.json
 │   │   ├── public
-│   │   │   ├── favicon.svg
+│   │   │   ├── favicon-v2.svg
 │   │   │   └── icons.svg
 │   │   ├── src
 │   │   │   ├── App.tsx
@@ -191,6 +191,8 @@
 │   │   ├── tsconfig.node.json
 │   │   └── vite.config.ts
 │   └── server
+│       ├── database
+│       │   └── kapdaghar.db
 │       ├── package-lock.json
 │       ├── package.json
 │       └── src
@@ -249,6 +251,7 @@
 │   ├── UI_GUIDELINES.md
 │   └── decisions.md
 ├── eslint.config.js
+├── favicon-v2.svg
 ├── index.html
 ├── package-lock.json
 ├── package.json
@@ -266,4 +269,4 @@
 ├── tsconfig.node.json
 └── vite.config.ts
 
-109 directories, 158 files
+110 directories, 160 files
