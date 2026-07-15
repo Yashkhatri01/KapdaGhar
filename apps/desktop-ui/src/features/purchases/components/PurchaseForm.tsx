@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { useInventorySelector } from "../../../components/shared/inventoryselector/useInventorySelector";
 import SupplierSelector from "../../../components/shared/supplierselector/SupplierSelector";
 import InventorySelector from "../../../components/shared/inventoryselector/InventorySelector";
 
@@ -9,6 +9,7 @@ import type { InventoryItem } from "../../../components/shared/inventoryselector
 function PurchaseForm() {
   const [supplier, setSupplier] = useState<Supplier | null>(null);
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
+  const { items, loading } = useInventorySelector();
 
   return (
     <div className="space-y-6">
@@ -42,6 +43,8 @@ function PurchaseForm() {
         </h3>
 
         <InventorySelector
+          items={items}
+          loading={loading}
           onSelect={setSelectedItem}
         />
 
