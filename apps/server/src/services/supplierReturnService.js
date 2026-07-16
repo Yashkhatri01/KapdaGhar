@@ -25,14 +25,60 @@ async function getPurchaseById(purchaseId) {
  * Get purchase items
  */
 async function getPurchaseItems(purchaseId) {
+
   return await all(
     `
-    SELECT *
-    FROM purchase_items
-    WHERE purchase_id = ?
+    SELECT
+
+      pi.id AS purchase_item_id,
+
+      pi.inventory_id,
+
+      pi.quantity,
+
+      pi.unit_cost,
+
+      pi.total,
+
+      i.item_name,
+      i.brand,
+      i.size,
+      i.color,
+
+      COALESCE(r.returned_qty,0)
+        AS already_returned,
+
+      (
+        pi.quantity -
+        COALESCE(r.returned_qty,0)
+      ) AS remaining_quantity
+
+    FROM purchase_items pi
+
+    LEFT JOIN inventory i
+      ON pi.inventory_id = i.id
+
+    LEFT JOIN (
+
+      SELECT
+        purchase_item_id,
+        SUM(quantity) returned_qty
+
+      FROM supplier_return_items
+
+      GROUP BY purchase_item_id
+
+    ) r
+
+    ON pi.id = r.purchase_item_id
+
+    WHERE pi.purchase_id = ?
+
+    ORDER BY pi.id
     `,
     [purchaseId]
   );
+
 }
 
 /**
@@ -50,6 +96,102 @@ async function getAlreadyReturnedQty(purchaseItemId) {
   );
 
   return row.returned;
+}
+
+async function getSupplierReturns() {
+
+  return await all(
+    `
+    SELECT
+
+      sr.id,
+
+      sr.purchase_id,
+
+      sr.supplier_id,
+
+      s.name AS supplier_name,
+
+      sr.total,
+
+      sr.created_at
+
+    FROM supplier_returns sr
+
+    LEFT JOIN suppliers s
+
+      ON sr.supplier_id=s.id
+
+    ORDER BY sr.id DESC
+    `
+  );
+
+}
+
+async function getSupplierReturnById(id){
+
+  const header=await get(
+`
+SELECT
+
+sr.*,
+
+s.name supplier_name
+
+FROM supplier_returns sr
+
+LEFT JOIN suppliers s
+
+ON s.id=sr.supplier_id
+
+WHERE sr.id=?
+
+`,
+[id]
+);
+
+if(!header){
+
+throw new Error(
+"Supplier Return not found"
+);
+
+}
+
+const items=await all(
+`
+SELECT
+
+sri.*,
+
+i.item_name,
+
+i.brand,
+
+i.size,
+
+i.color
+
+FROM supplier_return_items sri
+
+JOIN inventory i
+
+ON i.id=sri.inventory_id
+
+WHERE supplier_return_id=?
+
+`,
+[id]
+);
+
+return{
+
+header,
+
+items
+
+};
+
 }
 
 /**
@@ -71,7 +213,10 @@ async function createSupplierReturn(data) {
     const purchaseItemMap = new Map();
 
     for (const item of purchaseItems) {
-      purchaseItemMap.set(item.id, item);
+          purchaseItemMap.set(
+      item.purchase_item_id,
+      item
+    );
     }
 
     // Validate request
@@ -236,6 +381,28 @@ async function createSupplierReturn(data) {
       ]
     );
 
+
+    await run(
+  `
+  INSERT INTO cashbook
+  (
+    transaction_type,
+    amount,
+    description,
+    reference_type,
+    reference_id
+  )
+  VALUES (?, ?, ?, ?, ?)
+  `,
+  [
+    "INCOME",
+    grandTotal,
+    `Supplier Return #${supplierReturnId}`,
+    "supplier_returns",
+    supplierReturnId,
+  ]
+);
+
     await exec("COMMIT");
 
     return {
@@ -259,19 +426,10 @@ async function createSupplierReturn(data) {
 /**
  * List all supplier returns
  */
-async function getAllSupplierReturns() {
 
-  return await all(
-    `
-    SELECT *
-    FROM supplier_returns
-    ORDER BY created_at DESC
-    `
-  );
 
-}
-
-module.exports = {
-  createSupplierReturn,
-  getAllSupplierReturns
+module.exports={
+createSupplierReturn,
+getSupplierReturns,
+getSupplierReturnById
 };

@@ -13,7 +13,7 @@ import CustomerReturnsPage from "../features/returns/pages/CustomerReturnsPage";
 import CustomerReturnsHistoryPage from "../features/returns/pages/CustomerReturnsHistoryPage";
 import SupplierReturnsPage from "../features/returns/pages/SupplierReturnsPage";
 import SupplierReturnsHistoryPage from "../features/returns/pages/SupplierReturnsHistoryPage";
-
+import CashbookPage from "../features/cashbook/pages/CashbookPage";
 
 const router = createBrowserRouter([
   {
@@ -86,6 +86,10 @@ const router = createBrowserRouter([
       {
         path: "returns/supplier/history",
         element: <SupplierReturnsHistoryPage />,
+      },
+      {
+        path: "cashbook",
+        element: <CashbookPage />
       },
 
     ]

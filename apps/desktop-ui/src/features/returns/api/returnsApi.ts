@@ -95,3 +95,46 @@ export async function getCustomerReturn(id: number) {
 
   return res.data.data;
 }
+
+/* -----------------------------
+   Supplier Returns
+------------------------------ */
+
+export type SupplierReturnPayload = {
+  purchase_id: number;
+
+  items: {
+    purchase_item_id: number;
+    inventory_id: number;
+    quantity: number;
+  }[];
+};
+
+export async function createSupplierReturn(
+  payload: SupplierReturnPayload
+) {
+  const res = await api.post(
+    "/supplier-returns",
+    payload
+  );
+
+  return res.data.data;
+}
+
+export async function getSupplierReturns() {
+  const res = await api.get(
+    "/supplier-returns"
+  );
+
+  return res.data.data;
+}
+
+export async function getSupplierReturn(
+  id: number
+) {
+  const res = await api.get(
+    `/supplier-returns/${id}`
+  );
+
+  return res.data.data;
+}

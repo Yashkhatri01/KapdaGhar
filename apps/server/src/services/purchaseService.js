@@ -114,12 +114,12 @@ await run(
   )
   VALUES (?, ?, ?, ?, ?)`,
   [
-    "PURCHASE",
-    total,
-    `Purchase #${purchaseId}`,
-    "purchases",
-    purchaseId
-  ]
+  "EXPENSE",
+  total,
+  `Purchase #${purchaseId}`,
+  "purchases",
+  purchaseId,
+]
 );
 
     await exec("COMMIT");
@@ -189,22 +189,42 @@ async function getPurchaseItems(purchaseId) {
   return await all(
     `
     SELECT
-      pi.id,
+      pi.id AS purchase_item_id,
+
       pi.inventory_id,
+
       pi.quantity,
+
       pi.unit_cost,
+
       pi.total,
 
       i.item_name,
       i.brand,
       i.size,
       i.color,
-      i.selling_price
+      i.selling_price,
+
+      COALESCE(r.returned_qty, 0) AS already_returned,
+
+      (
+        pi.quantity -
+        COALESCE(r.returned_qty, 0)
+      ) AS remaining_quantity
 
     FROM purchase_items pi
 
     LEFT JOIN inventory i
       ON pi.inventory_id = i.id
+
+    LEFT JOIN (
+      SELECT
+        purchase_item_id,
+        SUM(quantity) AS returned_qty
+      FROM supplier_return_items
+      GROUP BY purchase_item_id
+    ) r
+      ON pi.id = r.purchase_item_id
 
     WHERE pi.purchase_id = ?
 

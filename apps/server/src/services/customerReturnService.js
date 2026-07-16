@@ -434,6 +434,68 @@ VALUES (?, ?, ?, ?, ?)
 }
 
 
+let cashbookType = "EXPENSE";
+let cashbookAmount = grandTotal;
+
+if (return_type === "EXCHANGE") {
+
+  const exchangeTotal = exchange_items.reduce(
+    (sum, item) => sum + item.total,
+    0
+  );
+
+  if (exchangeTotal > grandTotal) {
+
+    cashbookType = "INCOME";
+    cashbookAmount =
+      exchangeTotal - grandTotal;
+
+  } else if (
+    exchangeTotal < grandTotal
+  ) {
+
+    cashbookType = "EXPENSE";
+    cashbookAmount =
+      grandTotal - exchangeTotal;
+
+  } else {
+
+    cashbookAmount = 0;
+
+  }
+
+}
+
+if (cashbookAmount > 0) {
+
+  await run(
+    `
+    INSERT INTO cashbook
+    (
+      transaction_type,
+      amount,
+      description,
+      reference_type,
+      reference_id
+    )
+    VALUES (?, ?, ?, ?, ?)
+    `,
+    [
+      cashbookType,
+      cashbookAmount,
+      `Customer Return #${returnId}`,
+      "customer_returns",
+      returnId,
+    ]
+  );
+
+}
+
+/* ===========================
+   CASHBOOK ENTRY ENDS HERE
+=========================== */
+
+
     // 7. Commit transaction
 await exec("COMMIT");
 

@@ -3,18 +3,24 @@ const express = require("express");
 const router = express.Router();
 
 const supplierReturnController =
-  require("../controllers/supplierReturnController");
+require("../controllers/supplierReturnController");
 
-// Create supplier return
+// Create
 router.post(
   "/",
   supplierReturnController.createSupplierReturn
 );
 
-// List supplier returns
+// History
 router.get(
   "/",
-  supplierReturnController.getAllSupplierReturns
+  supplierReturnController.getSupplierReturns
+);
+
+// View Single
+router.get(
+  "/:id",
+  supplierReturnController.getSupplierReturn
 );
 
 module.exports = router;

@@ -15,16 +15,71 @@ async function add(req, res) {
 
 // GET entries
 async function list(req, res) {
-  try {
-    const data = await service.getAll();
 
-    res.json({ success: true, data });
+  try {
+
+    const {
+      year,
+      month,
+      day
+    } = req.query;
+
+    const data =
+      await service.getAll({
+        year,
+        month,
+        day
+      });
+
+    res.json({
+      success: true,
+      data
+    });
+
   } catch (err) {
-    res.status(500).json({ error: err.message });
+
+    res.status(500).json({
+      error: err.message
+    });
+
   }
+
+}
+
+async function summary(req, res) {
+
+  try {
+
+    const {
+      year,
+      month,
+      day
+    } = req.query;
+
+    const data =
+      await service.getSummary({
+        year,
+        month,
+        day
+      });
+
+    res.json({
+      success: true,
+      data
+    });
+
+  } catch (err) {
+
+    res.status(500).json({
+      error: err.message
+    });
+
+  }
+
 }
 
 module.exports = {
   add,
-  list
+  list,
+  summary
 };

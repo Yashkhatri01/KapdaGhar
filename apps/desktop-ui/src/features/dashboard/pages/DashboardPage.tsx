@@ -34,7 +34,7 @@ function DashboardPage() {
         <div>
 
           <h1 className="text-4xl font-bold text-gray-900">
-            Good Morning, Santosh Ji 👋
+            Good Morning, SethJi 👋
           </h1>
 
           <p className="mt-2 text-lg text-gray-600">

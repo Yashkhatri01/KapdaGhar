@@ -267,12 +267,12 @@ db.run(
   VALUES (?, ?, ?, ?, ?)
   `,
   [
-    "SALE",
-    grandTotal,
-    `Sale #${saleId} (${paymentMethod})`,
-    "sales",
-    saleId,
-  ],
+  "INCOME",
+  grandTotal,
+  `Sale #${saleId} (${paymentMethod})`,
+  "sales",
+  saleId,
+],
   (err) => {
     if (err) {
       db.run("ROLLBACK");

@@ -1,8 +1,5 @@
 const supplierReturnService = require("../services/supplierReturnService");
 
-
-
-
 /**
  * Create Supplier Return
  */
@@ -21,8 +18,6 @@ async function createSupplierReturn(req, res) {
 
   } catch (err) {
 
-    
-
     return res.status(400).json({
       success: false,
       message: err.message
@@ -33,14 +28,42 @@ async function createSupplierReturn(req, res) {
 }
 
 /**
- * Get All Supplier Returns
+ * Supplier Returns History
  */
-async function getAllSupplierReturns(req, res) {
+async function getSupplierReturns(req, res) {
 
   try {
 
     const data =
-      await supplierReturnService.getAllSupplierReturns();
+      await supplierReturnService.getSupplierReturns();
+
+    return res.json({
+      success: true,
+      data
+    });
+
+  } catch (err) {
+
+    return res.status(500).json({
+      success: false,
+      message: err.message
+    });
+
+  }
+
+}
+
+/**
+ * View Single Supplier Return
+ */
+async function getSupplierReturn(req, res) {
+
+  try {
+
+    const data =
+      await supplierReturnService.getSupplierReturnById(
+        req.params.id
+      );
 
     return res.json({
       success: true,
@@ -60,5 +83,6 @@ async function getAllSupplierReturns(req, res) {
 
 module.exports = {
   createSupplierReturn,
-  getAllSupplierReturns
+  getSupplierReturns,
+  getSupplierReturn,
 };
