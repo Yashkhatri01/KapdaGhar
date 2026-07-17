@@ -22,4 +22,35 @@ router.get(
   controller.getProfitSummary
 );
 
+router.get(
+  "/dashboard",
+  controller.dashboard
+);
+
+router.get(
+  "/sales-trend",
+  controller.salesTrend
+);
+
+router.get(
+  "/top-products",
+  controller.topProducts
+);
+
+router.get(
+  "/low-stock",
+  controller.lowStock
+);
+
+router.get(
+  "/dead-stock",
+  controller.deadStock
+);
+
+router.get(
+  "/revenue-vs-purchase",
+  controller.revenueVsPurchase
+);
+
+
 module.exports = router;
