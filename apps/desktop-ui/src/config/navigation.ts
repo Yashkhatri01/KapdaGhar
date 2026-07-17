@@ -7,7 +7,6 @@ import {
   RotateCcw,
   BookOpen,
   BarChart3,
-  Settings,
   Handshake,
 } from "lucide-react";
 
@@ -64,10 +63,5 @@ export const navigation = [
     subtitle: "Business Report",
     path: "/reports",
     icon: BarChart3,
-  },
-  {
-    title: "Settings",
-    path: "/settings",
-    icon: Settings,
   },
 ];

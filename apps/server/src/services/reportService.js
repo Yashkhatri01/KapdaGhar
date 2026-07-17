@@ -444,6 +444,171 @@ async function getRevenueVsPurchase() {
 
 }
 
+async function getTodaySales() {
+
+  return await get(
+    `
+    SELECT
+
+      COUNT(*) AS bills,
+
+      COALESCE(
+        SUM(grand_total),
+        0
+      ) AS amount
+
+    FROM sales
+
+    WHERE date(created_at)=date('now')
+    `
+  );
+
+}
+
+async function getTodayProfit() {
+
+  return await get(
+    `
+    SELECT
+
+      COALESCE(
+        SUM(
+          (
+            si.selling_price -
+            i.purchase_price
+          ) * si.quantity
+        ),
+        0
+      ) AS profit
+
+    FROM sale_items si
+
+    JOIN inventory i
+
+      ON i.id=si.inventory_id
+
+    JOIN sales s
+
+      ON s.id=si.sale_id
+
+    WHERE date(s.created_at)=date('now')
+    `
+  );
+
+}
+
+async function getCashBalance() {
+
+  return await get(`
+    SELECT
+
+      COALESCE(
+        SUM(
+          CASE
+
+            WHEN transaction_type = 'INCOME'
+            THEN amount
+
+            ELSE -amount
+
+          END
+        ),
+        0
+      ) AS balance
+
+    FROM cashbook
+  `);
+
+}
+
+async function getRecentSales() {
+
+  return await all(
+    `
+    SELECT
+
+      s.id,
+
+      s.created_at,
+
+      s.grand_total,
+
+      COALESCE(
+        c.name,
+        'Walk-in Customer'
+      ) AS customer_name
+
+    FROM sales s
+
+    LEFT JOIN customers c
+
+      ON c.id=s.customer_id
+
+    ORDER BY s.created_at DESC
+
+    LIMIT 5
+    `
+  );
+
+}
+
+async function getDashboardData() {
+
+  const [
+
+    todaySales,
+
+    todayProfit,
+
+    cash,
+
+    lowStock,
+
+    recentSales
+
+  ] = await Promise.all([
+
+    getTodaySales(),
+
+    getTodayProfit(),
+
+    getCashBalance(),
+
+    getLowStockItems(),
+
+    getRecentSales()
+
+  ]);
+
+  return {
+
+    summary: {
+
+      todaySales:
+        todaySales.amount,
+
+      todayBills:
+        todaySales.bills,
+
+      todayProfit:
+        todayProfit.profit,
+
+      cashBalance:
+        cash.balance,
+
+      lowStockCount:
+        lowStock.length
+
+    },
+
+    recentSales,
+
+    lowStock
+
+  };
+
+}
+
 
 module.exports = {
   getSalesSummary,
@@ -455,5 +620,6 @@ module.exports = {
   getTopProducts,
   getSalesTrend,
   getDashboardSummary,
+  getDashboardData,
   getRevenueVsPurchase
 };

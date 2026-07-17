@@ -52,5 +52,13 @@ router.get(
   controller.revenueVsPurchase
 );
 
+router.get(
+
+  "/dashboard-home",
+
+  controller.dashboardHome
+
+);
+
 
 module.exports = router;

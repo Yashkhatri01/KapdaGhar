@@ -264,6 +264,37 @@ async function revenueVsPurchase(req,res){
 
 }
 
+async function dashboardHome(req,res){
+
+  try{
+
+    const data=
+      await reportService.getDashboardData();
+
+    res.json({
+
+      success:true,
+
+      data
+
+    });
+
+  }
+
+  catch(err){
+
+    res.status(500).json({
+
+      success:false,
+
+      message:err.message
+
+    });
+
+  }
+
+}
+
 
 module.exports = {
   getSalesSummary,
@@ -272,6 +303,7 @@ module.exports = {
 
   dashboard,
   salesTrend,
+  dashboardHome,
 
   topProducts,
   lowStock,

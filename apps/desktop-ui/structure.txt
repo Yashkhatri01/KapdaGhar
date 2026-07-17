@@ -1,0 +1,217 @@
+.
+├── README.md
+├── eslint.config.js
+├── index.html
+├── package-lock.json
+├── package.json
+├── public
+│   ├── favicon-v2.svg
+│   └── icons.svg
+├── src
+│   ├── App.tsx
+│   ├── assets
+│   │   ├── hero.png
+│   │   ├── react.svg
+│   │   └── vite.svg
+│   ├── components
+│   │   ├── layout
+│   │   │   ├── footer
+│   │   │   │   └── Footer.tsx
+│   │   │   ├── header
+│   │   │   │   └── Header.tsx
+│   │   │   ├── mainlayout
+│   │   │   └── sidebar
+│   │   │       ├── Sidebar.tsx
+│   │   │       └── SidebarItem.tsx
+│   │   ├── shared
+│   │   │   ├── currency
+│   │   │   │   └── Currency.tsx
+│   │   │   ├── customerselector
+│   │   │   │   └── CustomerSelector.tsx
+│   │   │   ├── inventoryselector
+│   │   │   │   ├── InventorySelector.tsx
+│   │   │   │   └── useInventorySelector.ts
+│   │   │   ├── itemselector
+│   │   │   │   ├── ItemSelector.tsx
+│   │   │   │   └── useItemSelector.ts
+│   │   │   ├── nodata
+│   │   │   ├── pageheader
+│   │   │   │   └── PageHeader.tsx
+│   │   │   ├── purchaseselector
+│   │   │   │   └── PurchaseSelector.tsx
+│   │   │   ├── quickactioncard
+│   │   │   │   └── QuickActionCard.tsx
+│   │   │   ├── saleselector
+│   │   │   │   └── SaleSelector.tsx
+│   │   │   ├── statcard
+│   │   │   │   └── StatCard.tsx
+│   │   │   ├── statuschip
+│   │   │   │   └── StatusChip.tsx
+│   │   │   ├── supplierselector
+│   │   │   │   └── SupplierSelector.tsx
+│   │   │   └── toolbar
+│   │   │       └── Toolbar.tsx
+│   │   └── ui
+│   │       ├── badge
+│   │       ├── button
+│   │       │   └── Button.tsx
+│   │       ├── card
+│   │       │   └── Card.tsx
+│   │       ├── confirmdialog
+│   │       │   └── ConfirmDialog.tsx
+│   │       ├── datepicker
+│   │       ├── dropdown
+│   │       ├── emptystate
+│   │       │   └── EmptyState.tsx
+│   │       ├── input
+│   │       │   └── Input.tsx
+│   │       ├── loader
+│   │       ├── modal
+│   │       │   └── Modal.tsx
+│   │       ├── searchbar
+│   │       │   └── SearchBar.tsx
+│   │       ├── table
+│   │       │   └── Table.tsx
+│   │       ├── toolbar
+│   │       │   └── Toolbar.tsx
+│   │       └── tooltip
+│   ├── config
+│   │   ├── api.ts
+│   │   └── navigation.ts
+│   ├── contexts
+│   ├── features
+│   │   ├── cashbook
+│   │   │   ├── api
+│   │   │   │   └── cashbookApi.ts
+│   │   │   ├── components
+│   │   │   │   ├── CashbookFilters.tsx
+│   │   │   │   ├── CashbookSummary.tsx
+│   │   │   │   └── CashbookTable.tsx
+│   │   │   └── pages
+│   │   │       └── CashbookPage.tsx
+│   │   ├── customers
+│   │   │   ├── api
+│   │   │   │   └── customerApi.ts
+│   │   │   ├── components
+│   │   │   │   ├── CustomerForm.tsx
+│   │   │   │   ├── CustomerModal.tsx
+│   │   │   │   └── CustomerTable.tsx
+│   │   │   ├── constants
+│   │   │   ├── hooks
+│   │   │   │   └── useCustomers.ts
+│   │   │   ├── pages
+│   │   │   │   └── CustomersPage.tsx
+│   │   │   ├── types
+│   │   │   │   └── customer.ts
+│   │   │   └── utils
+│   │   ├── dashboard
+│   │   │   ├── api
+│   │   │   │   └── dashboardApi.ts
+│   │   │   └── pages
+│   │   │       └── DashboardPage.tsx
+│   │   ├── inventory
+│   │   │   ├── api
+│   │   │   │   └── inventoryApi.ts
+│   │   │   ├── components
+│   │   │   │   ├── InventoryForm.tsx
+│   │   │   │   ├── InventoryModal.tsx
+│   │   │   │   ├── InventoryTable.tsx
+│   │   │   │   └── LowSellingPriceModal.tsx
+│   │   │   ├── constants
+│   │   │   │   └── form.ts
+│   │   │   ├── hooks
+│   │   │   │   └── useInventory.ts
+│   │   │   ├── pages
+│   │   │   │   └── InventoryPage.tsx
+│   │   │   ├── types
+│   │   │   │   └── inventory.ts
+│   │   │   └── utils
+│   │   ├── purchases
+│   │   │   ├── api
+│   │   │   │   └── purchaseApi.ts
+│   │   │   ├── components
+│   │   │   │   ├── PurchaseForm.tsx
+│   │   │   │   ├── PurchaseItemsModal.tsx
+│   │   │   │   └── PurchaseModal.tsx
+│   │   │   ├── hooks
+│   │   │   │   └── usePurchaseCart.ts
+│   │   │   ├── pages
+│   │   │   │   ├── PurchaseHistoryPage.tsx
+│   │   │   │   └── PurchasesPage.tsx
+│   │   │   └── types
+│   │   │       └── purchase.ts
+│   │   ├── reports
+│   │   │   ├── api
+│   │   │   │   └── reportsApi.ts
+│   │   │   ├── components
+│   │   │   │   ├── DeadStockCard.tsx
+│   │   │   │   ├── LowStockCard.tsx
+│   │   │   │   ├── RevenuePurchaseChart.tsx
+│   │   │   │   ├── SalesTrendChart.tsx
+│   │   │   │   ├── SummaryCards.tsx
+│   │   │   │   └── TopProductsCard.tsx
+│   │   │   └── pages
+│   │   │       └── ReportsPage.tsx
+│   │   ├── returns
+│   │   │   ├── api
+│   │   │   │   └── returnsApi.ts
+│   │   │   ├── components
+│   │   │   │   ├── CustomerReturnItemsTable.tsx
+│   │   │   │   ├── CustomerReturnsTable.tsx
+│   │   │   │   ├── ExchangeCart.tsx
+│   │   │   │   ├── SupplierReturnItemsTable.tsx
+│   │   │   │   ├── SupplierReturnsTable.tsx
+│   │   │   │   ├── ViewCustomerReturnModal.tsx
+│   │   │   │   └── ViewSupplierReturnModal.tsx
+│   │   │   ├── hooks
+│   │   │   │   ├── useCustomerReturn.ts
+│   │   │   │   └── useSupplierReturn.ts
+│   │   │   ├── pages
+│   │   │   │   ├── CustomerReturnsHistoryPage.tsx
+│   │   │   │   ├── CustomerReturnsPage.tsx
+│   │   │   │   ├── ReturnsPage.tsx
+│   │   │   │   ├── SupplierReturnsHistoryPage.tsx
+│   │   │   │   └── SupplierReturnsPage.tsx
+│   │   │   └── types
+│   │   ├── sales
+│   │   │   ├── api
+│   │   │   │   └── salesApi.ts
+│   │   │   ├── components
+│   │   │   │   └── SaleItemsModal.tsx
+│   │   │   ├── hooks
+│   │   │   │   └── useCart.ts
+│   │   │   └── pages
+│   │   │       ├── SalesHistoryPage.tsx
+│   │   │       └── SalesPage.tsx
+│   │   ├── settings
+│   │   └── suppliers
+│   │       ├── api
+│   │       │   └── supplierApi.ts
+│   │       ├── components
+│   │       │   ├── SupplierForm.tsx
+│   │       │   ├── SupplierModal.tsx
+│   │       │   └── SupplierTable.tsx
+│   │       ├── hooks
+│   │       │   └── useSuppliers.ts
+│   │       ├── pages
+│   │       │   └── SuppliersPage.tsx
+│   │       └── types
+│   │           └── supplier.ts
+│   ├── hooks
+│   ├── index.css
+│   ├── layouts
+│   │   └── AppLayout.tsx
+│   ├── main.tsx
+│   ├── router
+│   │   └── index.tsx
+│   ├── store
+│   ├── styles
+│   └── theme
+├── structure.txt
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+├── vercel.json
+└── vite.config.ts
+
+99 directories, 116 files

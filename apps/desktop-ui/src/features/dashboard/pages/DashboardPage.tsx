@@ -1,8 +1,16 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Card from "../../../components/ui/card/Card";
 import Button from "../../../components/ui/button/Button";
 import StatCard from "../../../components/shared/statcard/StatCard";
 import QuickActionCard from "../../../components/shared/quickactioncard/QuickActionCard";
-import { useNavigate } from "react-router-dom";
+
+import {
+  getDashboardData,
+  type DashboardData,
+} from "../api/dashboardApi";
+
 import {
   ShoppingBag,
   Wallet,
@@ -11,7 +19,8 @@ import {
   PackagePlus,
   Users,
   Truck,
-  FileText,
+  Package,
+  BarChart3,
 } from "lucide-react";
 
 function DashboardPage() {
@@ -22,7 +31,63 @@ function DashboardPage() {
     year: "numeric",
   });
 
+  const [dashboard,setDashboard] =
+useState<DashboardData | null>(null);
+
+const [loading,setLoading] =
+useState(true);
+
+useEffect(()=>{
+
+  load();
+
+},[]);
+
+async function load(){
+
+  try{
+
+    setLoading(true);
+
+    setDashboard(
+      await getDashboardData()
+    );
+
+  }
+
+  finally{
+
+    setLoading(false);
+
+  }
+
+}
+
   const navigate = useNavigate();
+
+  if (loading) {
+  return (
+    <div className="p-8 text-gray-500">
+      Loading dashboard...
+    </div>
+  );
+}
+
+const hour = new Date().getHours();
+
+let greeting = "Good Morning";
+
+if (hour >= 12 && hour < 17) {
+
+  greeting = "Good Afternoon";
+
+}
+
+else if (hour >= 17) {
+
+  greeting = "Good Evening";
+
+}
 
   return (
     <div className="space-y-8">
@@ -34,7 +99,7 @@ function DashboardPage() {
         <div>
 
           <h1 className="text-4xl font-bold text-gray-900">
-            Good Morning, SethJi 👋
+            {greeting}, SethJi 👋
           </h1>
 
           <p className="mt-2 text-lg text-gray-600">
@@ -50,8 +115,14 @@ function DashboardPage() {
 
         </div>
 
-        <Button>
-          + New Sale
+        <Button
+
+        onClick={()=>navigate("/sales")}
+
+        >
+
+        + New Sale
+
         </Button>
 
       </div>
@@ -63,7 +134,7 @@ function DashboardPage() {
         <StatCard
           title="Today's Sales"
           subtitle="Aaj ki Bikri"
-          value="₹0"
+          value={`₹${dashboard?.summary.todaySales ?? 0}`}
           icon={ShoppingBag}
           iconBg="bg-green-100"
           iconColor="text-green-700"
@@ -72,7 +143,7 @@ function DashboardPage() {
         <StatCard
           title="Today's Profit"
           subtitle="Aaj ki Kamai"
-          value="₹0"
+          value={`₹${dashboard?.summary.todayProfit ?? 0}`}
           icon={IndianRupee}
           iconBg="bg-emerald-100"
           iconColor="text-emerald-700"
@@ -81,7 +152,7 @@ function DashboardPage() {
         <StatCard
           title="Cash in Shop"
           subtitle="Dukaan ka Cash"
-          value="₹0"
+          value={`₹${dashboard?.summary.cashBalance ?? 0}`}
           icon={Wallet}
           iconBg="bg-blue-100"
           iconColor="text-blue-700"
@@ -90,7 +161,7 @@ function DashboardPage() {
         <StatCard
           title="Low Stock"
           subtitle="Kam Stock"
-          value="0"
+          value={`${dashboard?.summary.lowStockCount ?? 0}`}
           icon={AlertTriangle}
           iconBg="bg-amber-100"
           iconColor="text-amber-700"
@@ -104,27 +175,221 @@ function DashboardPage() {
 
         <Card>
 
-          <h2 className="text-lg font-semibold">
-            Recent Sales
-          </h2>
+  <div className="flex items-center justify-between mb-4">
 
-          <p className="mt-2 text-sm text-gray-400">
-            No sales today.
-          </p>
+    <h2 className="text-lg font-semibold">
 
-        </Card>
+      Recent Sales
+
+    </h2>
+
+    <Button
+      onClick={() => navigate("/sales/history")}
+    >
+      View All
+    </Button>
+
+  </div>
+
+  {
+
+    dashboard?.recentSales.length ? (
+
+      <table className="w-full text-sm">
+
+        <thead>
+
+          <tr className="border-b text-gray-500">
+
+            <th className="text-left py-2">
+
+              Customer
+
+            </th>
+
+            <th className="text-center py-2">
+
+              Bill
+
+            </th>
+
+            <th className="text-right py-2">
+
+              Amount
+
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          {
+
+            dashboard.recentSales.map((sale) => (
+
+              <tr
+                key={sale.id}
+                className="border-b last:border-0"
+              >
+
+                <td className="py-3">
+
+                  {sale.customer_name || "Walk-in"}
+
+                </td>
+
+                <td className="text-center">
+
+                  #{sale.id}
+
+                </td>
+
+                <td className="text-right font-semibold text-green-700">
+
+                  ₹{sale.grand_total}
+
+                </td>
+
+              </tr>
+
+            ))
+
+          }
+
+        </tbody>
+
+      </table>
+
+    ) : (
+
+      <p className="text-sm text-gray-400">
+
+        No recent sales
+
+      </p>
+
+    )
+
+  }
+
+</Card>
 
         <Card>
 
-          <h2 className="text-lg font-semibold">
-            Low Stock Items
-          </h2>
+  <div className="flex items-center justify-between mb-4">
 
-          <p className="mt-2 text-sm text-gray-400">
-            No low stock items.
-          </p>
+    <h2 className="text-lg font-semibold">
 
-        </Card>
+      Low Stock Items
+
+    </h2>
+
+    <Button
+      onClick={() => navigate("/inventory")}
+    >
+      View Inventory
+    </Button>
+
+  </div>
+
+  {
+
+    dashboard?.lowStock.length ? (
+
+      <table className="w-full text-sm">
+
+        <thead>
+
+          <tr className="border-b text-gray-500">
+
+            <th className="text-left py-2">
+
+              Item
+
+            </th>
+
+            <th className="text-center py-2">
+
+              Brand
+
+            </th>
+
+            <th className="text-right py-2">
+
+              Stock
+
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          {
+
+            dashboard.lowStock.map((item) => (
+
+              <tr
+                key={item.id}
+                className="border-b last:border-0"
+              >
+
+                <td className="py-3">
+
+                  {item.item_name}
+
+                </td>
+
+                <td className="text-center text-gray-500">
+
+                  {item.brand || "-"}
+
+                </td>
+
+                <td className="text-right">
+
+                  <span className="font-semibold text-red-600">
+
+                    {item.stock}
+
+                  </span>
+
+                  <span className="text-gray-400">
+
+                    {" / "}
+
+                    {item.min_stock}
+
+                  </span>
+
+                </td>
+
+              </tr>
+
+            ))
+
+          }
+
+        </tbody>
+
+      </table>
+
+    ) : (
+
+      <p className="text-sm text-gray-400">
+
+        No low stock items
+
+      </p>
+
+    )
+
+  }
+
+</Card>
 
       </div>
 
@@ -155,7 +420,7 @@ function DashboardPage() {
           <QuickActionCard
             title="Inventory"
             subtitle="Maal"
-            icon={PackagePlus}
+            icon={Package}
             onClick={() => navigate("/inventory")}
           />
             
@@ -176,7 +441,7 @@ function DashboardPage() {
           <QuickActionCard
             title="Reports"
             subtitle="Business Report"
-            icon={FileText}
+            icon={BarChart3}
             onClick={() => navigate("/reports")}
           />
 
