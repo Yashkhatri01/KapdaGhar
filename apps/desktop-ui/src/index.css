@@ -19,3 +19,21 @@ body {
     "Segoe UI",
     sans-serif;
 }
+
+@keyframes threadMove {
+
+    0% {
+        transform: translateX(-120px);
+    }
+
+    100% {
+        transform: translateX(380px);
+    }
+
+}
+
+.animate-thread {
+
+    animation: threadMove 1.8s linear infinite;
+
+}

@@ -14,7 +14,28 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
-// health check
+// Health check
+const db = require("./db/connection");
+
+app.get("/health", (req, res) => {
+  db.get("SELECT 1", (err) => {
+    if (err) {
+      return res.status(503).json({
+        status: "error",
+        database: "disconnected",
+        message: err.message,
+      });
+    }
+
+    res.json({
+      status: "ok",
+      database: "connected",
+      timestamp: new Date().toISOString(),
+    });
+  });
+});
+
+// Root route
 app.get("/", (req, res) => {
   res.send("KapdaGhar backend is running 🚀");
 });
