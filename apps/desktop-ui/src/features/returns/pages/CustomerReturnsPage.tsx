@@ -14,7 +14,7 @@ import { createCustomerReturn } from "../api/returnsApi";
 import { useCart } from "../../sales/hooks/useCart";
 import { useNavigate } from "react-router-dom";
 import { History, ArrowRight } from "lucide-react";
-
+import { useToast } from "../../../contexts/ToastContext";
 
 function CustomerReturnsPage() {
   const [selectedSale, setSelectedSale] =
@@ -27,7 +27,7 @@ function CustomerReturnsPage() {
     useState(false);
 
   const exchangeCart = useCart();
-
+  const toast = useToast();
   const [returnItems, setReturnItems] =
   useState<any[]>([]);
 
@@ -110,7 +110,10 @@ useEffect(() => {
   if (!selectedSale) return;
 
   if (returnItems.length === 0) {
-    alert("Select at least one item.");
+    toast.warning({
+  title: "No Items Selected",
+  description: "Please select at least one item.",
+});
     return;
   }
 
@@ -166,7 +169,10 @@ async function confirmSaveReturn() {
 
 });
 
-    alert("Customer Return Saved Successfully.");
+    toast.success({
+  title: "Return Saved",
+  description: "Customer return recorded successfully.",
+});
 
 setShowConfirm(false);
 

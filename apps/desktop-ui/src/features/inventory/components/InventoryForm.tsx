@@ -4,7 +4,7 @@ import Button from "../../../components/ui/button/Button";
 import type { Inventory } from "../types/inventory";
 import { useRef } from "react";
 import LowSellingPriceModal from "../components/LowSellingPriceModal";
-
+import { useToast } from "../../../contexts/ToastContext";
 
 type Props = {
   item: Inventory | null;
@@ -34,6 +34,7 @@ function InventoryForm({ item, onSubmit, onClose }: Props) {
   stock: "",
   min_stock: "",
   });
+  const toast = useToast();
 
   const sellingPriceRef = useRef<HTMLInputElement>(null);
 
@@ -106,13 +107,24 @@ function InventoryForm({ item, onSubmit, onClose }: Props) {
 
   // Stop if any validation failed
   if (
-    newErrors.purchase_price ||
-    newErrors.selling_price ||
-    newErrors.stock ||
-    newErrors.min_stock
-  ) {
-    return;
-  }
+  newErrors.purchase_price ||
+  newErrors.selling_price ||
+  newErrors.stock ||
+  newErrors.min_stock
+) {
+
+  toast.warning({
+
+    title:"Check the highlighted fields",
+
+    description:
+      "Some values are invalid."
+
+  });
+
+  return;
+
+}
 
   // Warning only (not an error)
   if (selling < purchase) {
@@ -130,7 +142,15 @@ function InventoryForm({ item, onSubmit, onClose }: Props) {
     <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
 
       {/* LEFT */}
-      <div className="space-y-3">
+      <div
+  className="
+    space-y-3
+
+    opacity-0
+
+    animate-[fadeUp_.35s_ease_forwards]
+  "
+>
 
         <Input
           label="Item Name"
@@ -175,7 +195,19 @@ function InventoryForm({ item, onSubmit, onClose }: Props) {
       </div>
 
       {/* RIGHT */}
-      <div className="space-y-3">
+      <div
+  className="
+    space-y-3
+
+    opacity-0
+
+    animate-[fadeUp_.35s_ease_forwards]
+  "
+
+  style={{
+    animationDelay:"80ms"
+  }}
+>
 
         <Input
   label="Purchase Price"
@@ -234,13 +266,21 @@ function InventoryForm({ item, onSubmit, onClose }: Props) {
       {/* ACTIONS */}
       <div className="col-span-2 flex justify-end gap-2 mt-4">
 
-        <Button type="button" onClick={onClose}>
-          Cancel
-        </Button>
+        <Button
+type="button"
+onClick={onClose}
+variant="secondary"
+leftIcon={<span>↩</span>}
+>
+Cancel
+</Button>
 
-        <Button type="submit">
-          Save Item
-        </Button>
+        <Button
+type="submit"
+leftIcon={<span>💾</span>}
+>
+{item ? "Save Changes" : "Save Item"}
+</Button>
 
       </div>
 

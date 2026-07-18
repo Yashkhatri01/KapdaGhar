@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { useToast } from "../../../contexts/ToastContext";
 import PageHeader from "../../../components/shared/pageheader/PageHeader";
 import Toolbar from "../../../components/shared/toolbar/Toolbar";
 import InventoryTable from "../components/InventoryTable";
@@ -28,6 +28,7 @@ function InventoryPage() {
   // ✅ delete confirmation state
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [tab, setTab] = useState("ACTIVE");
+  const toast = useToast();
   const filteredItems = items.filter((item) => {
   if (tab === "ACTIVE") {
     return item.status === "ACTIVE" && item.stock > 0;
@@ -59,8 +60,8 @@ function InventoryPage() {
       border
       ${
         tab === "ACTIVE"
-          ? "bg-blue-50 text-blue-600 border-blue-200 shadow-md"
-          : "bg-white text-gray-600 hover:shadow-sm hover:border-gray-300"
+          ? "bg-blue-50 text-blue-600 border-blue-200 shadow-md scale-[1.02]"
+          : "bg-white text-gray-600 hover:shadow-sm hover:-translate-y-0.5 active:translate-y-0 hover:border-gray-300"
       }
     `}
   >
@@ -77,7 +78,7 @@ function InventoryPage() {
       ${
         tab === "OUT_OF_STOCK"
           ? "bg-red-50 text-red-600 border-red-200 shadow-md"
-          : "bg-white text-gray-600 hover:shadow-sm hover:border-gray-300"
+          : "bg-white text-gray-600 hover:shadow-sm hover:-translate-y-0.5 active:translate-y-0 hover:border-gray-300"
       }
     `}
   >
@@ -137,11 +138,27 @@ function InventoryPage() {
     }
 
     setIsModalOpen(false);
-    setSelectedItem(null);
+setSelectedItem(null);
 
-  } catch (err) {
-    console.error("Save failed:", err);
-  }
+toast.success({
+  title: selectedItem
+    ? "Item Updated"
+    : "Item Added",
+  description: selectedItem
+    ? "Inventory updated successfully."
+    : "New item added to inventory.",
+});
+
+} catch (err) {
+
+  console.error("Save failed:", err);
+
+  toast.error({
+    title: "Save Failed",
+    description: "Unable to save inventory item.",
+  });
+
+}
 }}
       />
 
@@ -159,7 +176,23 @@ function InventoryPage() {
           const id = deleteId;
           setDeleteId(null); // UI close first
                 
-          await deleteItem(id);
+          try {
+
+  await deleteItem(id);
+
+  toast.success({
+    title: "Item Deleted",
+    description: "Inventory item removed successfully.",
+  });
+
+} catch {
+
+  toast.error({
+    title: "Delete Failed",
+    description: "Unable to delete inventory item.",
+  });
+
+}
         }}
       />
 

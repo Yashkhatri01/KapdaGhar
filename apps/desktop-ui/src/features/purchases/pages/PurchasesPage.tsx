@@ -16,7 +16,7 @@ import type { Supplier } from "../../suppliers/types/supplier";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { getInventory } from "../../inventory/api/inventoryApi";
-
+import { useToast } from "../../../contexts/ToastContext";
 
 
 function PurchasesPage() {
@@ -49,6 +49,7 @@ function PurchasesPage() {
   const [purchases, setPurchases] = useState<any[]>([]);
   const [purchasesLoading, setPurchasesLoading] = useState(false);
   const navigate = useNavigate();
+  const toast = useToast();
 
   async function loadInventory() {
   try {
@@ -143,7 +144,10 @@ async function handleSubmit() {
 
   } catch (err) {
     console.error(err);
-    alert("Save failed");
+    toast.error({
+      title: "Save Failed",
+      description: "Unable to save purchase.",
+    });alert("Save failed");
   }
 }
 
@@ -410,24 +414,36 @@ async function handleSubmit() {
   disabled={loading || cart.length === 0}
   onClick={async () => {
     if (cart.length === 0) {
-      alert("Purchase cart empty hai.");
+          toast.warning({
+      title: "Purchase cart empty hai.",
+      description: "Please add at least one item before continuing.",
+    });
       return;
     }
 
     try {
       if (editPurchaseId) {
         await handleSubmit(); // update mode
-        alert("Purchase updated successfully.");
+        toast.success({
+          title: "Purchase Updated",
+          description: "Purchase updated successfully.",
+        });
       } else {
         await checkout(supplier?.id ?? null); // create mode
-        alert("Purchase saved successfully.");
+        toast.success({
+          title: "Purchase Saved",
+          description: "Purchase recorded successfully.",
+        });
       }
 
       clearCart();
       navigate("/purchases/history");
     } catch (err) {
       console.error(err);
-      alert("Purchase save nahi ho payi.");
+      toast.error({
+        title: "Purchase save nahi ho payi.",
+        description: "Unable to save purchase.",
+      });
     }
   }}
   className="bg-black text-white rounded px-4 py-2 disabled:opacity-50"
@@ -521,11 +537,17 @@ async function handleSubmit() {
 
     setInventoryModalOpen(false);
 
-    alert("Item successfully inventory me add ho gaya.");
+          toast.success({
+        title: "Item Added",
+        description: "Item successfully inventory me add ho gaya.",
+      });
 
   } catch (err) {
     console.error(err);
-    alert("Item save nahi ho paya.");
+    toast.error({
+      title: "Save Failed",
+      description: "Unable to save inventory item.",
+    });
   } finally {
     
   }

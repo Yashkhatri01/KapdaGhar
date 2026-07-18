@@ -9,6 +9,8 @@ import SaleItemsModal from "../components/SaleItemsModal";
 import ConfirmDialog from "../../../components/ui/confirmdialog/ConfirmDialog";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { useToast } from "../../../contexts/ToastContext";
+
 
 type Sale = {
   id: number;
@@ -46,6 +48,7 @@ function SalesHistoryPage() {
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [deleteSuccessOpen, setDeleteSuccessOpen] = useState(false);
   const navigate = useNavigate();
+  const toast = useToast();
 
   async function loadSales() {
     setLoading(true);
@@ -99,100 +102,241 @@ function SalesHistoryPage() {
 </div>
 
       {/* SALES TABLE */}
-      <div className="bg-white border rounded p-4">
 
-        {loading ? (
-          <p className="text-sm text-gray-500">Loading...</p>
-        ) : sales.length === 0 ? (
-          <p className="text-sm text-gray-400">No sales found</p>
-        ) : (
-          <table className="w-full text-sm">
+<div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
 
-            <thead>
-              <tr className="text-left border-b">
-                <th className="p-2">ID</th>
-                <th className="p-2">Amount</th>
-                <th className="px-4 py-3 text-left">
-                  Customer
-                </th>
-                <th className="p-2">Payment</th>
-                <th className="p-2">Date</th>
-                <th className="p-2">Action</th>
-              </tr>
-            </thead>
+  {loading ? (
 
-            <tbody>
-  {sales.map((s, index) => (
-    <tr key={s.id} className="border-b">
+    <div className="p-8 text-center text-sm text-gray-500">
+      Loading...
+    </div>
 
-      <td className="p-2">
-        #{index + 1}
-      </td>
+  ) : sales.length === 0 ? (
 
-      <td className="p-2 font-semibold">
-        ₹{s.grand_total}
-      </td>
+    <div className="p-8 text-center text-sm text-gray-400">
+      No sales found
+    </div>
 
-      {/* 👤 CUSTOMER */}
-      <td className="px-4 py-3">
-        {s.customer_name ? (
-          <span className="inline-flex items-center gap-2 font-medium">
-            👤 {s.customer_name}
-          </span>
-        ) : (
-          <span className="inline-flex items-center gap-2 text-gray-500">
-            🚶 Walk-in Customer
-          </span>
-        )}
-      </td>
+  ) : (
 
-      <td className="p-2">
-        {s.payment_method}
-      </td>
+    <div className="overflow-x-auto">
 
-      <td className="p-2 text-gray-500">
-        {new Date(s.created_at).toLocaleString()}
-      </td>
+      <table className="w-full table-auto text-sm">
 
-      <td className="p-2">
-        <div className="flex gap-3">
+        <thead className="bg-gray-50 border-b">
 
-          <button
-            onClick={() => openSaleDetails(s)}
-            className="text-blue-600 hover:underline"
-          >
-            View
-          </button>
+          <tr>
 
-          <button
-            onClick={() =>
-              navigate(`/sales/edit/${s.id}`)
-            }
-            className="text-green-600 hover:underline"
-          >
-            Edit
-          </button>
+            <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+              ID
+            </th>
 
-          <button
-            onClick={() => setDeleteId(s.id)}
-            className="text-red-600 hover:underline"
-          >
-            Delete
-          </button>
+            <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+              Amount
+            </th>
 
-        </div>
-      </td>
+            <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+              Customer
+            </th>
 
-    </tr>
-  ))}
-</tbody>
+            <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+              Payment
+            </th>
 
-          </table>
+            <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+              Date
+            </th>
 
-          
+            <th className="px-5 py-3 text-center text-xs font-semibold uppercase tracking-wide text-gray-500">
+              Action
+            </th>
 
-          
-        )}
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          {sales.map((s, index) => (
+
+            <tr
+              key={s.id}
+              className="
+                border-b
+                last:border-none
+                hover:bg-indigo-50/40
+                transition-all
+                duration-200
+              "
+            >
+
+              <td className="px-5 py-4">
+
+                <span
+                  className="
+                    inline-flex
+                    rounded-full
+                    bg-indigo-100
+                    px-3
+                    py-1
+                    text-xs
+                    font-semibold
+                    text-indigo-700
+                  "
+                >
+                  #{index + 1}
+                </span>
+
+              </td>
+
+              <td className="px-5 py-4">
+
+                <span className="font-semibold text-gray-900">
+                  ₹{s.grand_total}
+                </span>
+
+              </td>
+
+              {/* CUSTOMER */}
+
+              <td className="px-5 py-4">
+
+                {s.customer_name ? (
+
+                  <span className="inline-flex items-center gap-2 font-medium text-gray-800">
+
+                    👤 {s.customer_name}
+
+                  </span>
+
+                ) : (
+
+                  <span className="inline-flex items-center gap-2 text-gray-500">
+
+                    🚶 Walk-in Customer
+
+                  </span>
+
+                )}
+
+              </td>
+
+              <td className="px-5 py-4">
+
+                <span
+                  className={`
+                    inline-flex
+                    rounded-full
+                    px-3
+                    py-1
+                    text-xs
+                    font-medium
+
+                    ${
+                      s.payment_method === "CASH"
+                        ? "bg-amber-100 text-amber-700"
+                        : "bg-emerald-100 text-emerald-700"
+                    }
+                  `}
+                >
+
+                  {s.payment_method}
+
+                </span>
+
+              </td>
+
+              <td className="px-5 py-4 text-gray-500 whitespace-nowrap">
+
+                {new Date(s.created_at).toLocaleString()}
+
+              </td>
+
+              <td className="px-5 py-4">
+
+                <div className="flex justify-center gap-2">
+
+                  <button
+                    onClick={() => openSaleDetails(s)}
+                    className="
+                      rounded-lg
+                      border
+                      border-blue-200
+                      bg-blue-50
+                      px-3
+                      py-1.5
+                      text-xs
+                      font-medium
+                      text-blue-700
+                      transition-all
+                      duration-200
+                      hover:-translate-y-0.5
+                      hover:bg-blue-100
+                    "
+                  >
+                    View
+                  </button>
+
+                  <button
+                    onClick={() =>
+                      navigate(`/sales/edit/${s.id}`)
+                    }
+                    className="
+                      rounded-lg
+                      border
+                      border-green-200
+                      bg-green-50
+                      px-3
+                      py-1.5
+                      text-xs
+                      font-medium
+                      text-green-700
+                      transition-all
+                      duration-200
+                      hover:-translate-y-0.5
+                      hover:bg-green-100
+                    "
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    onClick={() => setDeleteId(s.id)}
+                    className="
+                      rounded-lg
+                      border
+                      border-red-200
+                      bg-red-50
+                      px-3
+                      py-1.5
+                      text-xs
+                      font-medium
+                      text-red-700
+                      transition-all
+                      duration-200
+                      hover:-translate-y-0.5
+                      hover:bg-red-100
+                    "
+                  >
+                    Delete
+                  </button>
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          ))}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  )}
+
 
         <ConfirmDialog
   open={deleteId !== null}
@@ -215,7 +359,10 @@ function SalesHistoryPage() {
       
       setDeleteSuccessOpen(true);
     } catch (err: any) {
-      alert(err.message);
+      toast.error({
+        title: "Operation Failed",
+        description: err.message,
+      });
     }
   }}
 />

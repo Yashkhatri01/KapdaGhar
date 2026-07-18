@@ -1,4 +1,3 @@
-import Button from "../../../components/ui/button/Button";
 import { Eye } from "lucide-react";
 
 type Props = {
@@ -15,43 +14,43 @@ function SupplierReturnsTable({
 
   if (loading) {
     return (
-      <div className="bg-white border rounded-lg p-6">
-        Loading...
+      <div className="rounded-xl border border-gray-200 bg-white shadow-sm p-6 text-sm text-gray-500">
+        Loading supplier returns...
       </div>
     );
   }
 
   return (
 
-    <div className="bg-white border rounded-lg overflow-hidden">
+    <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
 
-      <table className="w-full">
+      <table className="w-full table-auto text-sm">
 
-        <thead className="bg-gray-50">
+        <thead className="bg-gray-50 border-b border-gray-200">
 
-          <tr className="text-left">
+          <tr className="text-left text-gray-600">
 
-            <th className="px-4 py-3">
+            <th className="px-5 py-3 font-semibold">
               Return #
             </th>
 
-            <th className="px-4 py-3">
+            <th className="px-5 py-3 font-semibold">
               Date
             </th>
 
-            <th className="px-4 py-3">
+            <th className="px-5 py-3 font-semibold">
               Purchase
             </th>
 
-            <th className="px-4 py-3">
+            <th className="px-5 py-3 font-semibold">
               Supplier
             </th>
 
-            <th className="px-4 py-3 text-right">
+            <th className="px-5 py-3 text-right font-semibold">
               Amount
             </th>
 
-            <th className="px-4 py-3 text-center">
+            <th className="px-5 py-3 text-center font-semibold">
               Action
             </th>
 
@@ -67,7 +66,7 @@ function SupplierReturnsTable({
 
               <td
                 colSpan={6}
-                className="py-8 text-center text-gray-500"
+                className="py-10 text-center text-gray-400"
               >
                 No supplier returns found.
               </td>
@@ -80,46 +79,90 @@ function SupplierReturnsTable({
 
             <tr
               key={r.id}
-              className="border-t hover:bg-gray-50"
+              className="
+                border-b
+                last:border-none
+                hover:bg-indigo-50/40
+                transition-all
+                duration-200
+              "
             >
 
-              <td className="px-4 py-3">
+              {/* Return ID */}
+
+              <td className="px-5 py-4 font-semibold text-gray-800">
                 #{r.id}
               </td>
 
-              <td className="px-4 py-3">
+              {/* Date */}
+
+              <td className="px-5 py-4 whitespace-nowrap text-gray-500">
 
                 {new Date(
                   r.created_at
-                ).toLocaleDateString()}
+                ).toLocaleDateString("en-IN", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })}
 
               </td>
 
-              <td className="px-4 py-3">
+              {/* Purchase */}
+
+              <td className="px-5 py-4 font-medium">
                 #{r.purchase_id}
               </td>
 
-              <td className="px-4 py-3">
+              {/* Supplier */}
 
-                {r.supplier_name}
+              <td className="px-5 py-4">
+
+                <span className="inline-flex items-center gap-2 font-medium">
+
+                  🏭 {r.supplier_name}
+
+                </span>
 
               </td>
 
-              <td className="px-4 py-3 text-right font-medium">
+              {/* Amount */}
 
+              <td className="px-5 py-4 text-right font-semibold text-gray-900 tabular-nums">
                 ₹{r.total}
-
               </td>
 
-              <td className="px-4 py-3 text-center">
+              {/* Action */}
 
-                <Button
+              <td className="px-5 py-4">
+
+                <div className="flex justify-center">
+
+                  <button
   onClick={() => onView(r.id)}
-  className="bg-blue-600 hover:bg-blue-700 hover:shadow-lg active:scale-95 text-white px-3 py-1.5 rounded-md text-xs font-medium flex items-center gap-1.5 transition-all duration-200"
+  className="
+    inline-flex
+    items-center
+    gap-1.5
+    rounded-lg
+    bg-indigo-50
+    px-3
+    py-1.5
+    text-xs
+    font-semibold
+    text-indigo-700
+    transition-all
+    duration-200
+    hover:bg-indigo-100
+    hover:shadow-sm
+    active:scale-95
+  "
 >
   <Eye size={14} />
   View
-</Button>
+</button>
+
+                </div>
 
               </td>
 

@@ -13,7 +13,11 @@ function InventoryModal({ open, item, onClose, onSave }: Props) {
   return (
     <Modal
       isOpen={open}
-      title={item ? "Edit Item" : "Add New Item"}
+      title={
+item
+?"✏️ Edit Item"
+:"📦 Add New Item"
+}
       onClose={onClose}
     >
       <InventoryForm

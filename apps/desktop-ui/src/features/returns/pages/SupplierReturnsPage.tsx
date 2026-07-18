@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, History } from "lucide-react";
-
+import { useToast } from "../../../contexts/ToastContext";
 import PageHeader from "../../../components/shared/pageheader/PageHeader";
 import PurchaseSelector from "../../../components/shared/purchaseselector/PurchaseSelector";
 import SupplierReturnItemsTable from "../components/SupplierReturnItemsTable";
@@ -32,6 +32,8 @@ function SupplierReturnsPage() {
 
   const [returnItems, setReturnItems] =
     useState<any[]>([]);
+
+  const toast = useToast();
 
   const [showConfirm, setShowConfirm] =
     useState(false);
@@ -99,9 +101,10 @@ function SupplierReturnsPage() {
     if (!selectedPurchase) return;
 
     if (returnItems.length === 0) {
-      alert(
-        "Select at least one item."
-      );
+      toast.warning({
+  title: "No Items Selected",
+  description: "Please select at least one item.",
+});
       return;
     }
 
@@ -119,9 +122,10 @@ function SupplierReturnsPage() {
         items: returnItems,
       });
 
-      alert(
-        "Supplier Return Saved Successfully."
-      );
+      toast.success({
+  title: "Return Saved",
+  description: "Supplier return recorded successfully.",
+});
 
       setShowConfirm(false);
 
