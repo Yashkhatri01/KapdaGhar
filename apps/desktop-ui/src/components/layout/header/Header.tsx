@@ -26,7 +26,7 @@ function Header() {
       className="
         h-16
         shrink-0
-        bg-white/95
+        bg-slate-190
         backdrop-blur
         border-b
         border-gray-200
@@ -45,12 +45,31 @@ function Header() {
         <button
           onClick={openMobile}
           className="
-            lg:hidden
-            rounded-xl
-            p-2
-            hover:bg-gray-100
-            transition-all
-          "
+lg:hidden
+
+flex
+items-center
+justify-center
+
+h-10
+w-10
+
+rounded-xl
+
+bg-white
+border
+border-gray-200
+
+shadow-sm
+
+hover:bg-indigo-50
+hover:border-indigo-200
+
+active:scale-95
+
+transition-all
+duration-200
+"
         >
           <Menu size={21} />
         </button>
@@ -60,13 +79,31 @@ function Header() {
         <button
           onClick={toggleCollapse}
           className="
-            hidden
-            lg:flex
-            rounded-xl
-            p-2
-            hover:bg-gray-100
-            transition-all
-          "
+hidden
+lg:flex
+
+items-center
+justify-center
+
+h-10
+w-10
+
+rounded-xl
+
+bg-white
+border
+border-gray-200
+
+shadow-sm
+
+hover:bg-indigo-50
+hover:border-indigo-200
+
+active:scale-95
+
+transition-all
+duration-200
+"
         >
           {collapsed ? (
             <PanelLeftOpen size={20} />
@@ -83,13 +120,24 @@ function Header() {
 
         <div
           className="
-            hidden
-            sm:flex
-            items-center
-            gap-2
-            text-sm
-            text-gray-600
-          "
+hidden
+sm:flex
+
+items-center
+gap-2
+
+rounded-full
+
+bg-white
+
+border
+border-gray-200
+
+shadow-sm
+
+px-3
+py-1.5
+"
         >
           <CalendarDays
             size={16}
@@ -112,7 +160,10 @@ function Header() {
             border-gray-200
             px-3
             py-1.5
-            hover:bg-gray-50
+            bg-white
+            shadow-sm
+            hover:border-indigo-200
+            hover:bg-indigo-50
             transition-all
           "
         >
