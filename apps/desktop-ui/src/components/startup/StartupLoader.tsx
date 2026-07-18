@@ -7,8 +7,12 @@ type Props = {
 const messages = [
   "Starting KapdaGhar...",
   "Waking up the server...",
-  "Connecting to inventory...",
-  "Preparing your workspace...",
+  "Connecting to database...",
+  "Loading inventory...",
+  "Loading customers...",
+  "Preparing dashboard...",
+  "Checking reports...",
+  "Organizing workspace...",
   "Almost ready..."
 ];
 
