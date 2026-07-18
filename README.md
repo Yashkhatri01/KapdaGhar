@@ -1,75 +1,178 @@
-# React + TypeScript + Vite
+# 🛍️ KapdaGhar
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**KapdaGhar** is a modern offline-first Garment Shop Management System built for small and medium clothing businesses. It simplifies day-to-day operations like inventory management, sales, purchases, returns, cashbook, customer & supplier management, and business reporting through a clean and intuitive interface.
 
-Currently, two official plugins are available:
+> Designed with simplicity, speed, and real shop workflows in mind.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🚀 Live Demo
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 🌐 Frontend
+https://kapda-ghar-lf4a-orpin.vercel.app/
 
-## Expanding the ESLint configuration
+### ⚙️ Backend API
+https://kapdaghar-backend.onrender.com
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## ✨ Features
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 📊 Dashboard
+- Business overview
+- Today's sales & profit
+- Cash balance
+- Low stock alerts
+- Recent sales
+- Quick actions
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 📦 Inventory
+- Add/Edit/Delete products
+- Barcode support
+- Brand, size & color management
+- Stock tracking
+- Selling price protection
+
+### 🛒 Sales
+- Fast POS interface
+- Walk-in & registered customers
+- Multiple payment methods
+- Sale history
+- Sale details
+
+### 🚚 Purchases
+- Purchase management
+- Supplier selection
+- Automatic stock increase
+- Purchase history
+
+### 👥 Customer Management
+- Customer records
+- Purchase history
+- Customer search
+
+### 🤝 Supplier Management
+- Supplier records
+- Purchase history
+
+### 🔄 Returns
+- Customer Returns
+- Supplier Returns
+- Exchange workflow
+- Automatic inventory adjustment
+
+### 💰 Cash Book
+- Income & Expense tracking
+- Running cash balance
+- Financial summary
+
+### 📈 Reports
+- Sales analytics
+- Revenue vs Purchase
+- Top selling products
+- Dead stock
+- Low stock
+- Business summary
+
+---
+
+# 🛠️ Tech Stack
+
+## Frontend
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- React Router
+- Axios
+- Recharts
+- Lucide React
+
+## Backend
+
+- Node.js
+- Express.js
+- SQLite
+
+---
+
+# 📂 Project Structure
 
 ```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+apps/
+ ├── desktop-ui/      # React Frontend
+ └── server/          # Express Backend
 ```
+
+---
+
+# ⚡ Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/Yashkhatri01/KapdaGhar.git
+```
+
+Move into the project
+
+```bash
+cd KapdaGhar
+```
+
+---
+
+## Frontend
+
+```bash
+cd apps/desktop-ui
+
+npm install
+
+npm run dev
+```
+
+---
+
+## Backend
+
+```bash
+cd apps/server
+
+npm install
+
+npm start
+```
+
+---
+
+# 📸 Screenshots
+
+> Screenshots will be added soon.
+
+---
+
+# 🎯 Motivation
+
+Many small garment shops still maintain sales and inventory manually or through outdated software.
+
+KapdaGhar was built to provide a clean, modern, and easy-to-use desktop-style management system that helps shop owners efficiently manage their daily business operations.
+
+---
+
+# 👨‍💻 Developer
+
+**Yash Khatri**
+
+Electronics Engineering  
+Indian Institute of Technology (BHU), Varanasi
+
+GitHub:
+https://github.com/Yashkhatri01
+
+---
+
+# 📄 License
+
+This project is developed for educational and hackathon purposes.
