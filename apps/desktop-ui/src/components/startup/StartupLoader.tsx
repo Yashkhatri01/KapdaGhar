@@ -18,7 +18,8 @@ const messages = [
 
 export default function StartupLoader({ ready }: Props) {
   const [messageIndex, setMessageIndex] = useState(0);
-
+  const [showReady, setShowReady] = useState(false);
+  const [hideLoader, setHideLoader] = useState(false);
   useEffect(() => {
     if (ready) return;
 
@@ -29,11 +30,23 @@ export default function StartupLoader({ ready }: Props) {
     return () => clearInterval(interval);
   }, [ready]);
 
+  useEffect(() => {
+  if (!ready) return;
+
+  setShowReady(true);
+
+  const hideTimeout = setTimeout(() => {
+    setHideLoader(true);
+  }, 500);
+
+  return () => clearTimeout(hideTimeout);
+}, [ready]);
+
   return (
     <div
       className={`startup-bg fixed inset-0 z-[9999] flex items-center justify-center bg-[#F8F6F1]
     transition-all duration-700 ease-out
-    ${ready ? "opacity-0 pointer-events-none" : "opacity-100"}
+    ${hideLoader ? "opacity-0 pointer-events-none" : "opacity-100"}
     `}
     >
       {/* Background Glow */}
@@ -123,7 +136,7 @@ export default function StartupLoader({ ready }: Props) {
         {/* Status */}
         <div className="mt-10 flex h-8 items-center gap-3">
 
-          {!ready ? (
+          {!showReady ? (
             <>
               <div className="h-2.5 w-2.5 rounded-full bg-[#B78628] startup-pulse" />
 
