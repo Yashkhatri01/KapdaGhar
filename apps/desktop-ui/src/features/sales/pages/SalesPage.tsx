@@ -13,6 +13,7 @@ import {
 import { History, ArrowRight } from "lucide-react";
 import ConfirmDialog from "../../../components/ui/confirmdialog/ConfirmDialog";
 import CustomerSelector from "../../../components/shared/customerselector/CustomerSelector";
+import Button from "../../../components/ui/button/Button";
 
 function SalesPage() {
   const {
@@ -130,25 +131,15 @@ useEffect(() => {
 />
 
       <div className="flex justify-end">
-  <button
-  onClick={() => navigate("/sales/history")}
-  className="
-    flex items-center gap-2
-    px-4 py-2
-    bg-blue-600
-    hover:bg-blue-700
-    text-white
-    rounded-lg
-    font-medium
-    transition-all
-    shadow-sm
-    hover:shadow-md
-  "
+  <Button
+leftIcon={<History size={18}/>}
+
+rightIcon={<ArrowRight size={16}/>}
+
+onClick={()=>navigate("/sales/history")}
 >
-  <History size={18} />
-  Sales History
-  <ArrowRight size={16} />
-</button>
+Sales History
+</Button>
 
 
 </div>
@@ -157,10 +148,26 @@ useEffect(() => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
 
   {/* LEFT SIDE - POS WORKSPACE */}
-<div className="bg-white p-4 rounded border h-fit lg:sticky lg:top-6 h-fit flex flex-col gap-4">
+<div
+  className="
+    bg-white
+    rounded-2xl
+    border
+    border-gray-200
+    shadow-sm
+    hover:shadow-xl
+    transition-all
+    duration-300
+
+    lg:sticky
+    lg:top-6
+
+    overflow-hidden
+  "
+>
 
   {/* HEADER */}
-  <div>
+  <div className="p-6">
     <h2 className="text-lg font-semibold">
       ➕ Sale Entry (Product Search)
     </h2>
@@ -168,24 +175,61 @@ useEffect(() => {
     <p className="text-sm text-gray-500 mt-1">
       Item search karke sale me add karein
     </p>
-  </div>
+  
+
+  <div
+className="
+mt-4
+h-px
+bg-gradient-to-r
+from-transparent
+via-blue-200/70
+to-transparent
+"
+/>
 
   {/* SEARCH AREA (EXPANDED FEEL) */}
-  <div className="p-4 border rounded-lg bg-gray-50">
+  <div
+  className="
+    mt-6
+    rounded-xl
+    border
+    border-gray-200
+    bg-gray-50
+    p-5
+  "
+>
     <ItemSelector onSelect={addItem} />
   </div>
 
   {/* QUICK SUMMARY (BALANCE UX) */}
-  <div className="grid grid-cols-2 gap-3 text-sm">
+  <div className="grid grid-cols-2 gap-4 mt-5">
 
-    <div className="p-3 border rounded bg-white">
+    <div
+  className="
+    rounded-xl
+    border
+    bg-white
+    p-4
+  "
+>
       <div className="text-gray-500 text-xs">Items</div>
-      <div className="font-semibold">{totals.totalQty}</div>
+      <div className="mt-1 text-xl font-bold text-gray-900">{totals.totalQty}</div>
     </div>
 
-    <div className="p-3 border rounded bg-white">
+    <div
+      className="
+        rounded-xl
+        border
+        bg-white
+        p-4
+      "
+    >
       <div className="text-gray-500 text-xs">Subtotal</div>
-      <div className="font-semibold">₹{totals.subtotal}</div>
+      <div className="mt-1 text-xl font-bold text-gray-900">₹{totals.subtotal}</div>
+
+
+      </div>
     </div>
 
   </div>
@@ -196,7 +240,19 @@ useEffect(() => {
   <div className="flex flex-col gap-4">
 
     {/* 👤 CUSTOMER SECTION (TOP) */}
-    <div className="bg-white p-4 rounded border">
+    <div
+  className="
+    bg-white
+    rounded-2xl
+    border
+    border-gray-200
+    shadow-sm
+    hover:shadow-lg
+    transition-all
+    duration-300
+    p-6
+  "
+>
 
       <h2 className="text-lg font-semibold">
         👤 Customer (Optional)
@@ -215,7 +271,19 @@ useEffect(() => {
       {customerName && (
         <div className="mt-3 p-3 rounded-lg bg-green-50 border border-green-200">
 
-          <div className="text-sm font-semibold text-green-700">
+          <div
+  className="
+    mt-4
+    rounded-xl
+    border
+    border-green-200
+    bg-gradient-to-r
+    from-green-50
+    to-emerald-50
+    p-4
+    animate-[fadeIn_.25s_ease]
+  "
+>
             ✔ Customer Selected
           </div>
 
@@ -229,39 +297,157 @@ useEffect(() => {
     </div>
 
     {/* 🧾 CART SECTION (BOTTOM) */}
-    <div className="bg-white p-4 rounded border h-fit lg:sticky lg:top-6">
+    <div
+  className="
+    bg-white
+    rounded-2xl
+    border
+    border-gray-200
+    shadow-sm
+    hover:shadow-xl
+    transition-all
+    duration-300
+
+    lg:sticky
+    lg:top-6
+
+    overflow-hidden
+  "
+>
+
+  <div className="p-6">
 
       <h2 className="font-semibold mb-3">
         Current Sale
       </h2>
 
       {cart.length === 0 ? (
-        <p className="text-sm text-gray-400">
-          👆 Upar se maal select karke sale shuru karein.
-        </p>
-      ) : (
-        <div className="space-y-3 max-h-[430px] overflow-y-auto pr-2">
+  <div
+  className="
+    mt-6
 
-          {cart.map((item) => (
-            <div
-              key={item.inventory_id}
-              className="flex justify-between items-center border-b pb-2"
-            >
+    flex
+    flex-col
+    items-center
+    justify-center
 
-              <div>
-                <div className="font-medium">
-                  {item.item_name}
-                  {item.brand && ` (${item.brand})`}
-                </div>
+    rounded-3xl
 
-                <div className="text-xs text-gray-500">
-                  {item.size} {item.color}
-                </div>
-              </div>
+    bg-gradient-to-br
+    from-slate-50
+    to-blue-50/70
 
-              <div className="mt-2">
-  <label className="text-xs text-gray-500">
-    Selling Price (Optional)
+    py-12
+    px-6
+
+    text-center
+
+    transition-all
+    duration-300
+
+    hover:-translate-y-0.5
+    hover:shadow-md
+  "
+>
+
+    <div
+    className="
+      mb-5
+
+      flex
+      h-16
+      w-16
+
+      items-center
+      justify-center
+
+      rounded-2xl
+
+      bg-white
+
+      text-3xl
+
+      shadow-sm
+    "
+  >
+    🛒
+  </div>
+
+  <h3 className="font-semibold text-gray-800">
+    Sales Cart Empty
+  </h3>
+
+
+      <p className="mt-2 max-w-sm text-sm leading-6 text-gray-500">
+    👆 Upar se maal select karke sale shuru karein.
+  </p>
+    
+  </div>
+) : (
+  <div className="space-y-3 max-h-[460px] overflow-y-auto pr-2">
+
+    {cart.map((item) => (
+
+      <div
+        key={item.inventory_id}
+        className="
+          rounded-2xl
+          border
+          border-gray-200
+
+          bg-white
+
+          p-4
+
+          transition-all
+          duration-200
+
+          hover:border-blue-200
+          hover:shadow-md
+        "
+      >
+
+        {/* TOP */}
+
+        <div className="flex justify-between gap-4">
+
+          <div className="min-w-0 flex-1">
+
+            <h3 className="font-semibold text-gray-900 truncate">
+              {item.item_name}
+              {item.brand && ` (${item.brand})`}
+            </h3>
+
+            <p className="mt-1 text-xs text-gray-500">
+              {item.size || "-"} • {item.color || "-"}
+            </p>
+
+          </div>
+
+          <div className="text-right shrink-0">
+
+            <div className="text-xs text-gray-500">
+              Item Total
+            </div>
+
+            <div className="text-xl font-bold text-blue-700">
+              ₹
+              {item.quantity *
+                (item.custom_selling_price ??
+                  item.selling_price)}
+            </div>
+
+          </div>
+
+        </div>
+
+        {/* PRICE */}
+
+        <div className="mt-4">
+
+          <div className="mt-4 flex items-center gap-3">
+  <label className="text-xs font-medium text-gray-500 whitespace-nowrap">
+    Custom Price (Optional)
   </label>
 
   <input
@@ -276,66 +462,110 @@ useEffect(() => {
       )
     }
     className="
-      mt-1
-      w-28
-      px-2
-      py-1
+      w-40
+      rounded-xl
       border
-      rounded
+      px-3
+      py-2
       text-sm
-      focus:outline-none
-      focus:ring-2
-      focus:ring-blue-200
+      outline-none
+      focus:border-blue-500
+      focus:ring-4
+      focus:ring-blue-100
     "
   />
-
-  {item.custom_selling_price != null && (
-    <p className="text-[11px] text-gray-500 mt-1">
-      Effective Price: ₹
-      {item.custom_selling_price}
-    </p>
-  )}
 </div>
 
-              <div className="flex items-center gap-2">
-
-                <button
-                  onClick={() => decreaseQty(item.inventory_id)}
-                  className="px-2 border rounded"
-                >
-                  -
-                </button>
-
-                <span>{item.quantity}</span>
-
-                <button
-                  onClick={() => increaseQty(item.inventory_id)}
-                  className="px-2 border rounded"
-                >
-                  +
-                </button>
-
-                <button
-                  onClick={() => removeItem(item.inventory_id)}
-                  className="text-red-500 text-sm ml-2"
-                >
-                  remove
-                </button>
-
-              </div>
-
-              <div className="font-semibold">
-                ₹
-{item.quantity *
-  (item.custom_selling_price ??
-    item.selling_price)}
-              </div>
-
-            </div>
-          ))}
+          {item.custom_selling_price != null && (
+            <p className="mt-1 text-xs text-blue-600">
+              Effective Price ₹
+              {item.custom_selling_price}
+            </p>
+          )}
 
         </div>
-      )}
+
+        {/* BOTTOM */}
+
+        <div className="mt-4 flex items-center justify-between">
+
+          <div className="flex items-center gap-2">
+
+            <button
+              onClick={() =>
+                decreaseQty(item.inventory_id)
+              }
+              className="
+                h-9
+                w-9
+
+                rounded-xl
+                border
+
+                transition
+
+                hover:bg-gray-100
+              "
+            >
+              −
+            </button>
+
+            <div
+              className="
+                w-10
+                text-center
+                font-semibold
+              "
+            >
+              {item.quantity}
+            </div>
+
+            <button
+              onClick={() =>
+                increaseQty(item.inventory_id)
+              }
+              className="
+                h-9
+                w-9
+
+                rounded-xl
+                border
+
+                transition
+
+                hover:bg-gray-100
+              "
+            >
+              +
+            </button>
+
+          </div>
+
+          <Button
+            variant="secondary"
+            onClick={() =>
+              removeItem(item.inventory_id)
+            }
+            className="
+              !border-red-200
+              !text-red-600
+
+              hover:!bg-red-50
+            "
+          >
+            Remove
+          </Button>
+
+        </div>
+
+      </div>
+
+    ))}
+
+  </div>
+)}
+
+      
 
       {saleError && (
         <div className="mt-4 p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded">
@@ -345,12 +575,37 @@ useEffect(() => {
 
       {/* FOOTER ACTIONS */}
       {cart.length > 0 && (
-        <div className="mt-5 flex justify-between items-center">
+        <div
+className="
+mt-6
 
-          <div className="text-sm text-gray-600">
-            Total Items: {totals.totalQty} <br />
-            Subtotal: ₹{totals.subtotal}
-          </div>
+border-t
+
+pt-5
+
+flex
+items-center
+justify-between
+"
+>
+
+          <div className="space-y-1">
+  <div className="text-sm text-gray-500">
+    Total Items
+  </div>
+
+  <div className="text-xl font-bold">
+    {totals.totalQty}
+  </div>
+
+  <div className="text-sm text-gray-500 mt-2">
+    Subtotal
+  </div>
+
+  <div className="text-2xl font-bold text-blue-700">
+    ₹{totals.subtotal}
+  </div>
+</div>
 
           <div className="flex items-center gap-3">
 
@@ -360,21 +615,29 @@ useEffect(() => {
               onChange={(e) =>
                 setPaymentMethod(e.target.value as "CASH" | "UPI")
               }
-              className="px-3 py-2 border rounded-lg"
+              className="
+rounded-xl
+border
+px-4
+py-2
+transition
+
+hover:bg-gray-100
+"
             >
               <option value="CASH">💵 CASH</option>
               <option value="UPI">📱 UPI</option>
             </select>
 
-            <button
-              onClick={clearCart}
-              className="px-3 py-2 border rounded-lg"
-            >
-              Clear
-            </button>
+            <Button
+  variant="secondary"
+  onClick={clearCart}
+>
+  Clear
+</Button>
 
-            <button
-              disabled={checkoutLoading}
+            <Button
+               loading={checkoutLoading}
               onClick={async () => {
                 if (cart.length === 0) {
                   setSaleError("Cart empty hai.");
@@ -414,21 +677,33 @@ useEffect(() => {
                   setCheckoutLoading(false);
                 }
               }}
-              className="px-4 py-2 bg-black text-white rounded-lg"
+              className="
+rounded-xl
+
+bg-blue-600
+
+px-4
+py-2
+
+font-medium
+text-white
+
+transition
+
+hover:bg-blue-700
+
+disabled:opacity-50
+"
             >
-              {checkoutLoading
-                ? editingSaleId
-                  ? "Updating..."
-                  : "Saving..."
-                : editingSaleId
-                ? "Update Sale"
-                : "Save Sale"}
-            </button>
+              {editingSaleId ? "Update Sale" : "Save Sale"}
+</Button>
 
           </div>
 
         </div>
       )}
+
+      </div>
 
     </div>
 
@@ -437,50 +712,208 @@ useEffect(() => {
 </div>
 
         {/* RECENT SALES SECTION START */}
-<div className="bg-white p-4 rounded border">
 
-  <div className="flex items-center justify-between mb-3">
-    <h2 className="font-semibold">Recent Sales</h2>
+<div
+  className="
+    bg-white
+    rounded-2xl
+    border
+    border-gray-200
+    shadow-sm
 
-    <span className="text-xs text-gray-400">
-      📊 Detailed history ke liye Sales History page check karein
-    </span>
+    hover:shadow-lg
+    transition-all
+    duration-300
+
+    overflow-hidden
+  "
+>
+
+  <div className="p-6">
+
+    {/* HEADER */}
+
+    <div className="flex items-start justify-between">
+
+      <div>
+
+        <h2 className="text-lg font-semibold text-gray-900">
+          Recent Sales
+        </h2>
+
+        <p className="mt-1 text-sm text-gray-500">
+          Last few sales recorded today
+        </p>
+
+      </div>
+
+      <div
+        className="
+          rounded-full
+          bg-blue-50
+          px-3
+          py-1
+
+          text-xs
+          font-medium
+          text-blue-600
+        "
+      >
+        {sales.length} Sales
+      </div>
+
+    </div>
+
+    {/* DIVIDER */}
+
+    <div
+      className="
+        mt-5
+        h-px
+        bg-gradient-to-r
+        from-transparent
+        via-blue-200/70
+        to-transparent
+      "
+    />
+
+    {/* CONTENT */}
+
+    {salesLoading ? (
+
+      <div className="py-8 text-center text-gray-500">
+        Loading recent sales...
+      </div>
+
+    ) : sales.length === 0 ? (
+
+      <div
+        className="
+          py-10
+
+          text-center
+
+          rounded-xl
+
+          border-2
+          border-dashed
+          border-gray-200
+
+          bg-gray-50
+        "
+      >
+        <div className="text-lg">
+          📦
+        </div>
+
+        <div className="mt-2 font-medium text-gray-700">
+          No Sales Yet
+        </div>
+
+        <div className="mt-1 text-sm text-gray-500">
+          Today's sales will appear here.
+        </div>
+
+      </div>
+
+    ) : (
+
+      <div className="mt-5 space-y-3">
+
+        {sales.slice(0, 5).map(
+          (sale: any, index: number) => (
+
+            <div
+              key={sale.id}
+              className="
+                flex
+                items-center
+                justify-between
+
+                rounded-xl
+
+                border
+                border-gray-200
+
+                px-4
+                py-3
+
+                transition-all
+                duration-200
+
+                hover:border-blue-200
+                hover:bg-blue-50
+                hover:shadow-sm
+              "
+            >
+
+              <div>
+
+                <div className="font-medium text-gray-900">
+                  Sale #{index + 1}
+                </div>
+
+                <div className="mt-1 text-xs text-gray-500">
+                  Payment • {sale.payment_method}
+                </div>
+
+              </div>
+
+              <div className="text-right">
+
+                <div
+                  className="
+                    text-lg
+                    font-bold
+                    text-blue-700
+                  "
+                >
+                  ₹{sale.grand_total}
+                </div>
+
+              </div>
+
+            </div>
+
+          )
+        )}
+
+      </div>
+
+    )}
+
+    {/* FOOTER */}
+
+    {sales.length > 0 && (
+
+      <div
+        className="
+          mt-6
+
+          rounded-xl
+
+          bg-blue-50
+
+          px-4
+          py-3
+
+          text-sm
+          text-blue-700
+        "
+      >
+        💡 Complete sales history, items and payment details are available in
+        <span className="font-semibold">
+          {" "}
+          Sales History
+        </span>.
+      </div>
+
+    )}
+
   </div>
 
-  {salesLoading ? (
-    <p>Loading...</p>
-  ) : sales.length === 0 ? (
-    <p className="text-sm text-gray-400">
-      Abhi tak koi sales nahi hui
-    </p>
-  ) : (
-    <div className="space-y-1">
-      {sales.map((sale: any, index: number) => (
-        <div
-          key={sale.id}
-          className="border-b py-2 flex justify-between hover:bg-gray-50 transition"
-        >
-          <span className="text-sm">
-            Sale #{index + 1}
-          </span>
-
-          <span className="font-medium">
-            ₹{sale.grand_total}
-          </span>
-        </div>
-      ))}
-    </div>
-  )}
-
-  {/* UX FOOTER HINT */}
-  {sales.length > 0 && (
-    <div className="mt-3 text-xs text-gray-500">
-      💡 Tip: Har sale ka full breakdown, items aur payment details
-      “Sales History” section me available hai.
-    </div>
-  )}
-
 </div>
+
 {/* RECENT SALES SECTION END */}
 
       <ConfirmDialog

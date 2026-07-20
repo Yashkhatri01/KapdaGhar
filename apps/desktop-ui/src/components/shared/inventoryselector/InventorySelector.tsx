@@ -33,71 +33,220 @@ function InventorySelector({
   }, [items, query]);
 
   return (
-    <div className="w-full space-y-2">
+    <div className="w-full space-y-3">
+
+      {/* Search */}
+
       <input
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="🔍 Search Item..."
-        className="w-full border rounded p-2"
+        className="
+          w-full
+          rounded-xl
+          border
+          border-gray-200
+          bg-white
+
+          px-4
+          py-3
+
+          text-sm
+
+          outline-none
+
+          transition-all
+          duration-200
+
+          focus:border-blue-400
+          focus:ring-4
+          focus:ring-blue-100
+        "
       />
 
+      {/* Loading */}
+
       {loading && (
-        <div className="text-sm text-gray-500">
+        <div
+          className="
+            rounded-xl
+            border
+            border-blue-100
+            bg-blue-50
+
+            px-4
+            py-3
+
+            text-sm
+            text-blue-700
+          "
+        >
           Loading items...
         </div>
       )}
 
+      {/* Results */}
+
       {query && filteredItems.length > 0 && (
-        <div className="border rounded bg-white max-h-60 overflow-auto">
+
+        <div
+          className="
+            max-h-80
+            overflow-y-auto
+
+            rounded-2xl
+            border
+            border-gray-200
+
+            bg-white
+
+            shadow-sm
+          "
+        >
+
           {filteredItems.map((item) => (
-            <div
+
+            <button
               key={item.id}
+              type="button"
               onClick={() => onSelect(item)}
-              className="cursor-pointer hover:bg-gray-100 p-2 flex justify-between"
+              className="
+                w-full
+
+                border-b
+                border-gray-100
+                last:border-b-0
+
+                px-4
+                py-4
+
+                text-left
+
+                transition-all
+                duration-200
+
+                hover:bg-blue-50
+                hover:border-blue-100
+              "
             >
-              <div>
-                <div className="font-medium">
-                  {item.item_name}
-                  {item.brand && ` (${item.brand})`}
+
+              <div className="flex items-start justify-between gap-4">
+
+                <div className="min-w-0 flex-1">
+
+                  <div className="font-semibold text-gray-900 truncate">
+                    {item.item_name}
+                    {item.brand && ` (${item.brand})`}
+                  </div>
+
+                  <div className="mt-1 text-xs text-gray-500">
+                    {item.category || "-"} • {item.size || "-"} • {item.color || "-"}
+                  </div>
+
                 </div>
 
-                <div className="text-xs text-gray-500">
-                  {item.category || "-"} | {item.size || "-"} |{" "}
-                  {item.color || "-"}
+                <div className="text-right shrink-0">
+
+                  <div className="text-lg font-bold text-blue-700">
+                    ₹{item.selling_price}
+                  </div>
+
+                  <div
+                    className={`
+                      mt-1
+                      text-xs
+                      font-medium
+                      ${
+                        item.stock > 0
+                          ? "text-green-600"
+                          : "text-red-500"
+                      }
+                    `}
+                  >
+                    Stock : {item.stock}
+                  </div>
+
                 </div>
+
               </div>
 
-              <div className="text-right">
-                <div className="font-semibold">
-                  ₹{item.selling_price}
-                </div>
+            </button>
 
-                <div className="text-xs text-gray-500">
-                  Stock: {item.stock}
-                </div>
-              </div>
-            </div>
           ))}
+
         </div>
+
       )}
 
+      {/* Empty */}
+
       {query && !loading && filteredItems.length === 0 && (
-        <div className="border rounded bg-white">
-          <div className="p-3 text-sm text-gray-500">
-            No matching item found.
+
+        <div
+          className="
+            rounded-2xl
+
+            border-2
+            border-dashed
+            border-gray-200
+
+            bg-gray-50
+
+            overflow-hidden
+          "
+        >
+
+          <div className="px-5 py-6 text-center">
+
+            <div className="text-3xl mb-2">
+              📦
+            </div>
+
+            <div className="font-semibold text-gray-800">
+              No matching item found
+            </div>
+
+            <div className="mt-1 text-sm text-gray-500">
+              "{query}" inventory me available nahi hai.
+            </div>
+
           </div>
 
           {onAddNewItem && (
+
             <button
               type="button"
               onClick={() => onAddNewItem(query)}
-              className="w-full border-t px-3 py-2 text-left hover:bg-gray-50 text-blue-600 font-medium"
+              className="
+                w-full
+
+                border-t
+                border-gray-200
+
+                bg-white
+
+                px-4
+                py-3
+
+                text-sm
+                font-semibold
+                text-blue-700
+
+                transition-all
+                duration-200
+
+                hover:bg-blue-50
+              "
             >
-              ➕ Add "{query}" to Inventory
+              ➕ "{query}" ko Inventory me Add karein
             </button>
+
           )}
+
         </div>
+
       )}
+
     </div>
   );
 }

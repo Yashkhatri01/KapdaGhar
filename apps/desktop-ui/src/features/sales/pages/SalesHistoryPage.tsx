@@ -10,7 +10,7 @@ import ConfirmDialog from "../../../components/ui/confirmdialog/ConfirmDialog";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useToast } from "../../../contexts/ToastContext";
-
+import Button from "../../../components/ui/button/Button";
 
 type Sale = {
   id: number;
@@ -81,24 +81,13 @@ function SalesHistoryPage() {
       />
 
       <div className="flex justify-end">
-  <button
-    onClick={() => navigate("/sales")}
-    className="
-      flex items-center gap-2
-      px-4 py-2
-      bg-blue-700
-      hover:bg-black
-      text-white
-      rounded-lg
-      font-medium
-      transition-all
-      shadow-sm
-      hover:shadow-md
-    "
-  >
-    <ArrowLeft size={18} />
-    Back to Sales
-  </button>
+  <Button
+  onClick={() => navigate("/sales")}
+  className="flex items-center gap-2"
+>
+  <ArrowLeft size={18} />
+  Back to Sales
+</Button>
 </div>
 
       {/* SALES TABLE */}

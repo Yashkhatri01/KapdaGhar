@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { getInventory } from "../../inventory/api/inventoryApi";
 import { useToast } from "../../../contexts/ToastContext";
-
+import Button from "../../../components/ui/button/Button";
 
 function PurchasesPage() {
   const [supplier, setSupplier] = useState<Supplier | null>(null);
@@ -161,148 +161,324 @@ async function handleSubmit() {
 
       <div className="flex justify-end">
 
-  <button
-    onClick={() => navigate("/purchases/history")}
-    className="
-      px-4 py-2
-      bg-blue-700
-      hover:bg-black
-      text-white
-      rounded-lg
-      transition
-    "
-  >
-    📜 Purchase History
-  </button>
+  <Button
+  onClick={() => navigate("/purchases/history")}
+>
+  📜 Purchase History
+</Button>
 
 </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
 
         {/* LEFT */}
+<div
+  className="
+    bg-white
+    rounded-2xl
+    border
+    border-gray-200
+    shadow-sm
+    hover:shadow-lg
+    transition-all
+    duration-300
+    overflow-hidden
 
-        <div className="bg-white p-4 rounded border h-fit lg:sticky lg:top-6 flex flex-col gap-4">
+    h-fit
+    lg:sticky
+    lg:top-6
+  "
+>
+  <div className="p-6">
 
-          <div>
-            <h2 className="text-lg font-semibold">
-              ➕ Purchase Entry
-            </h2>
+    {/* HEADER */}
+    <div>
+      <h2 className="text-lg font-semibold">
+        📦 Purchase Entry
+      </h2>
 
-            <p className="text-sm text-gray-500">
-              Supplier select karke item add karein.
-            </p>
-          </div>
+      <p className="mt-1 text-sm text-gray-500">
+        Supplier select karke inventory purchase karein.
+      </p>
+    </div>
 
-          {/* Supplier */}
+    {/* DIVIDER */}
+    <div
+      className="
+        mt-4
+        h-px
+        bg-gradient-to-r
+        from-transparent
+        via-blue-200/70
+        to-transparent
+      "
+    />
 
-          <div className="border rounded-lg p-4 bg-gray-50">
+    {/* SUPPLIER */}
+    <div
+      className="
+        mt-6
+        rounded-xl
+        border
+        border-gray-200
+        bg-gray-50
+        p-5
+      "
+    >
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-sm font-semibold text-gray-700">
+          Supplier
+        </h3>
 
-            <h3 className="font-medium mb-2">
-              Supplier
-            </h3>
+        {supplier && (
+          <span
+            className="
+              rounded-full
+              bg-green-100
+              px-3
+              py-1
+              text-xs
+              font-medium
+              text-green-700
+            "
+          >
+            Selected
+          </span>
+        )}
+      </div>
 
-            <SupplierSelector
-              onSelect={setSupplier}
-            />
+      <SupplierSelector
+        onSelect={setSupplier}
+      />
+    </div>
 
-            {supplier && (
-              <div className="mt-3 rounded border bg-green-50 p-2">
-                <div className="text-sm font-semibold text-green-700">
-                  Selected Supplier
-                </div>
+    {/* INVENTORY */}
+    <div
+      className="
+        mt-5
+        rounded-xl
+        border
+        border-gray-200
+        bg-gray-50
+        p-5
+      "
+    >
+      <h3 className="mb-3 text-sm font-semibold text-gray-700">
+        Inventory Item
+      </h3>
 
-                <div className="font-bold">
-                  {supplier.name}
-                </div>
-              </div>
-            )}
+      <InventorySelector
+        items={inventoryItems}
+        loading={inventoryLoading}
+        onSelect={addItem}
+        onAddNewItem={() =>
+          setInventoryModalOpen(true)
+        }
+      />
+    </div>
 
-          </div>
+    {/* QUICK SUMMARY */}
+    <div className="grid grid-cols-2 gap-4 mt-5">
 
-          {/* Item */}
-
-          <div className="border rounded-lg p-4 bg-gray-50">
-
-            <h3 className="font-medium mb-2">
-              Search Item
-            </h3>
-
-            <InventorySelector
-              items={inventoryItems}
-              loading={inventoryLoading}
-              onSelect={addItem}
-              onAddNewItem={() =>
-                setInventoryModalOpen(true)
-              }
-            />
-
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-
-            <div className="border rounded p-3">
-
-              <div className="text-xs text-gray-500">
-                Items
-              </div>
-
-              <div className="font-bold">
-                {totals.totalQty}
-              </div>
-
-            </div>
-
-            <div className="border rounded p-3">
-
-              <div className="text-xs text-gray-500">
-                Total
-              </div>
-
-              <div className="font-bold">
-                ₹{totals.subtotal}
-              </div>
-
-            </div>
-
-          </div>
-
+      <div
+        className="
+          rounded-xl
+          border
+          bg-white
+          p-4
+        "
+      >
+        <div className="text-xs text-gray-500">
+          Items
         </div>
+
+        <div className="mt-1 text-xl font-bold text-gray-900">
+          {totals.totalQty}
+        </div>
+      </div>
+
+      <div
+        className="
+          rounded-xl
+          border
+          bg-white
+          p-4
+        "
+      >
+        <div className="text-xs text-gray-500">
+          Purchase Total
+        </div>
+
+        <div className="mt-1 text-xl font-bold text-gray-900">
+          ₹{totals.subtotal}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
 
         {/* RIGHT */}
 
-        <div className="bg-white border rounded p-4">
+<div
+  className="
+    bg-white
+    rounded-2xl
 
-          <h2 className="font-semibold mb-4">
-            Purchase Items
-          </h2>
+    border
+    border-gray-200
+
+    shadow-sm
+    hover:shadow-xl
+
+    transition-all
+    duration-300
+
+    lg:sticky
+    lg:top-6
+
+    overflow-hidden
+  "
+>
+
+  <div className="p-6">
+
+          <h2 className="text-lg font-semibold">
+  📦 Current Purchase
+</h2>
+
+<p className="mt-1 text-sm text-gray-500">
+  Selected inventory items aur pricing yahan manage karein.
+</p>
+
+<div
+  className="
+    mt-4
+    h-px
+    bg-gradient-to-r
+    from-transparent
+    via-blue-200/70
+    to-transparent
+  "
+/>
 
           {cart.length === 0 ? (
-            <p className="text-gray-400 text-sm">
-              👈 Left side se item select karein.
-            </p>
+            <div
+  className="
+    mt-6
+    flex
+    flex-col
+    items-center
+    justify-center
+
+    rounded-3xl
+
+    bg-gradient-to-br
+    from-slate-50
+    to-blue-50/70
+
+    py-12
+    px-6
+
+    text-center
+
+    transition-all
+    duration-300
+
+    hover:-translate-y-0.5
+    hover:shadow-md
+  "
+>
+
+  <div
+    className="
+      mb-4
+
+      flex
+      h-14
+      w-14
+
+      items-center
+      justify-center
+
+      rounded-2xl
+
+      bg-white
+
+      text-2xl
+
+      shadow-sm
+    "
+  >
+    📦
+  </div>
+
+  <h3 className="font-semibold text-gray-800">
+    Purchase Cart Empty
+  </h3>
+
+  <p className="mt-2 max-w-sm text-sm leading-6 text-gray-500">
+    Left side se inventory item select karke purchase banana shuru karein.
+  </p>
+
+</div>
           ) : (
             <div className="space-y-3">
 
               {cart.map((item) => (
 
                 <div
-                  key={item.inventory_id}
-                  className="border-b pb-3 flex justify-between items-center"
-                >
+  key={item.inventory_id}
+  className="
+    group
 
-                  <div>
+    rounded-2xl
 
-                    <div className="font-medium">
-                      {item.item_name}
-                    </div>
+    bg-white
 
-                    <div className="text-xs text-gray-500">
-                      {item.brand} {item.size} {item.color}
-                    </div>
+    p-5
 
-                  </div>
+    transition-all
+    duration-300
 
-                  <div className="flex gap-3">
+    hover:-translate-y-0.5
+    hover:shadow-lg
+
+    space-y-5
+  "
+>
+
+                  <div className="flex justify-between items-start gap-5">
+
+  <div className="min-w-0 flex-1">
+
+    <h3 className="font-semibold text-gray-900 truncate">
+      {item.item_name}
+      {item.brand && ` (${item.brand})`}
+    </h3>
+
+    <p className="mt-1 text-xs text-gray-500">
+      {item.size || "-"} • {item.color || "-"}
+    </p>
+
+  </div>
+
+  <div className="text-right">
+
+    <div className="text-xs text-gray-500">
+      Item Total
+    </div>
+
+    <div className="mt-1 text-xl font-bold text-blue-700">
+      ₹{item.quantity * item.unit_cost}
+    </div>
+
+  </div>
+
+</div>
+
+                  <div className="grid grid-cols-2 gap-4">
 
   <div>
     <label className="text-xs text-gray-500 block">
@@ -319,7 +495,26 @@ async function handleSubmit() {
           e.target.value
         )
       }
-      className="border rounded px-2 py-1 w-24"
+      className="
+mt-1
+w-full
+
+rounded-xl
+
+border
+
+px-3
+py-2
+
+text-sm
+
+transition
+
+focus:border-blue-400
+focus:ring-4
+focus:ring-blue-100
+outline-none
+"
     />
   </div>
 
@@ -338,124 +533,254 @@ async function handleSubmit() {
           e.target.value
         )
       }
-      className="border rounded px-2 py-1 w-24"
+      className="
+mt-1
+w-full
+
+rounded-xl
+
+border
+
+px-3
+py-2
+
+text-sm
+
+transition
+
+focus:border-blue-400
+focus:ring-4
+focus:ring-blue-100
+outline-none
+"
     />
   </div>
 
+  
+
 </div>
 
-                  <div className="flex items-center gap-2">
+
+
+                  <div className="flex items-center justify-between">
 
                     <button
-                      onClick={() =>
-                        decreaseQty(item.inventory_id)
-                      }
-                      className="px-2 border rounded"
-                    >
-                      -
-                    </button>
+  onClick={() =>
+    decreaseQty(item.inventory_id)
+  }
+  className="
+h-9
+w-9
 
-                    <span>
+flex
+items-center
+justify-center
+
+rounded-xl
+
+border
+border-gray-200
+
+bg-white
+
+text-lg
+font-semibold
+text-gray-700
+
+shadow-sm
+
+transition-all
+duration-200
+
+hover:border-blue-300
+hover:bg-blue-50
+hover:text-blue-700
+hover:shadow
+
+active:scale-95
+"
+>
+  −
+</button>
+
+                    <span
+  className="
+    w-10
+    text-center
+    font-semibold
+  "
+>
                       {item.quantity}
                     </span>
 
                     <button
-                      onClick={() =>
-                        increaseQty(item.inventory_id)
-                      }
-                      className="px-2 border rounded"
-                    >
-                      +
-                    </button>
+  onClick={() =>
+    increaseQty(item.inventory_id)
+  }
+  className="
+h-9
+w-9
 
-                    <button
-                      onClick={() =>
-                        removeItem(item.inventory_id)
-                      }
-                      className="text-red-500"
-                    >
-                      Remove
-                    </button>
+flex
+items-center
+justify-center
+
+rounded-xl
+
+border
+border-gray-200
+
+bg-white
+
+text-lg
+font-semibold
+text-gray-700
+
+shadow-sm
+
+transition-all
+duration-200
+
+hover:border-blue-300
+hover:bg-blue-50
+hover:text-blue-700
+hover:shadow
+
+active:scale-95
+"
+>
+  +
+</button>
+
+                    <Button
+variant="secondary"
+onClick={() =>
+removeItem(item.inventory_id)
+}
+className="
+!border-red-200
+!text-red-600
+
+hover:!bg-red-50
+"
+>
+Remove
+</Button>
 
                   </div>
-
-                  <div className="font-semibold">
-                    ₹{item.quantity * item.unit_cost}
-                  </div>
+                  
 
                 </div>
+                
 
               ))}
 
               <div className="flex justify-between items-center mt-5">
 
-                <div>
+               <div className="space-y-1">
 
-                  <div>
-                    Total Items : {totals.totalQty}
-                  </div>
+  <div className="text-sm text-gray-500">
+    Total Items
+  </div>
 
-                  <div>
-                    Purchase Total : ₹{totals.subtotal}
-                  </div>
+  <div className="text-xl font-bold">
+    {totals.totalQty}
+  </div>
 
-                </div>
+  <div className="pt-2 text-sm text-gray-500">
+    Purchase Total
+  </div>
 
-                <div className="flex gap-3">
+  <div className="text-2xl font-bold text-blue-700">
+    ₹{totals.subtotal}
+  </div>
 
-  <button
-    onClick={clearCart}
-    className="border rounded px-4 py-2"
-  >
-    Clear
-  </button>
+</div>
 
-  <button
-  disabled={loading || cart.length === 0}
-  onClick={async () => {
-    if (cart.length === 0) {
-          toast.warning({
-      title: "Purchase cart empty hai.",
-      description: "Please add at least one item before continuing.",
+                <div className="flex items-center gap-3">
+
+  <Button
+  variant="secondary"
+  onClick={clearCart}
+>
+  Clear
+</Button>
+
+  <Button
+loading={loading}
+disabled={cart.length===0}
+onClick={async()=>{
+
+  if(cart.length===0){
+
+    toast.warning({
+      title:"Purchase cart empty hai.",
+      description:"Please add at least one item before continuing.",
     });
-      return;
-    }
 
-    try {
-      if (editPurchaseId) {
-        await handleSubmit(); // update mode
-        toast.success({
-          title: "Purchase Updated",
-          description: "Purchase updated successfully.",
-        });
-      } else {
-        await checkout(supplier?.id ?? null); // create mode
-        toast.success({
-          title: "Purchase Saved",
-          description: "Purchase recorded successfully.",
-        });
-      }
+    return;
+  }
 
-      clearCart();
-      navigate("/purchases/history");
-    } catch (err) {
-      console.error(err);
-      toast.error({
-        title: "Purchase save nahi ho payi.",
-        description: "Unable to save purchase.",
+  try{
+
+    if(editPurchaseId){
+
+      await handleSubmit();
+
+      toast.success({
+        title:"Purchase Updated",
+        description:"Purchase updated successfully.",
       });
+
+    }else{
+
+      await checkout(supplier?.id ?? null);
+
+      toast.success({
+        title:"Purchase Saved",
+        description:"Purchase recorded successfully.",
+      });
+
     }
-  }}
-  className="bg-black text-white rounded px-4 py-2 disabled:opacity-50"
+
+    clearCart();
+
+    navigate("/purchases/history");
+
+  }catch(err){
+
+    console.error(err);
+
+    toast.error({
+      title:"Purchase save nahi ho payi.",
+      description:"Unable to save purchase.",
+    });
+
+  }
+
+}}
+className="
+rounded-xl
+
+bg-blue-600
+
+font-medium
+
+transition
+
+hover:bg-blue-700
+"
 >
   {loading
     ? "Saving..."
     : editPurchaseId
       ? "Update Purchase"
       : "Save Purchase"}
-</button>
+</Button>
 
 </div>
+
+
 
               </div>
 
@@ -466,35 +791,134 @@ async function handleSubmit() {
 
         </div>
 
+        </div>
+
       </div>
 
             {/* RECENT PURCHASES SECTION START */}
-<div className="bg-white p-4 rounded border">
+<div
+  className="
+    bg-white
+    rounded-2xl
+    border
+    border-gray-200
+    shadow-sm
 
-  <div className="flex items-center justify-between mb-3">
-    <h2 className="font-semibold">
+    hover:shadow-lg
+    transition-all
+    duration-300
+
+    overflow-hidden
+  "
+>
+
+<div className="p-6">
+
+  <div className="flex items-start justify-between">
+
+  <div>
+
+    <h2 className="text-lg font-semibold text-gray-900">
       Recent Purchases
     </h2>
 
-    <span className="text-xs text-gray-400">
-      📦 Detailed history ke liye Purchase History page check karein
-    </span>
+    <p className="mt-1 text-sm text-gray-500">
+      Last few purchases recorded
+    </p>
+
   </div>
 
+  <div
+    className="
+      rounded-full
+      bg-blue-50
+      px-3
+      py-1
+
+      text-xs
+      font-medium
+      text-blue-600
+    "
+  >
+    {purchases.length} Purchases
+  </div>
+
+</div>
+
+<div
+  className="
+    mt-5
+    h-px
+    bg-gradient-to-r
+    from-transparent
+    via-blue-200/70
+    to-transparent
+  "
+/>
+
   {purchasesLoading ? (
-    <p>Loading...</p>
+    <div className="py-8 text-center text-gray-500">
+  Loading recent purchases...
+</div>
   ) : purchases.length === 0 ? (
-    <p className="text-sm text-gray-400">
-      Abhi tak koi purchase nahi hui.
-    </p>
+    <div
+  className="
+    mt-6
+
+    py-10
+
+    rounded-2xl
+
+    border-2
+    border-dashed
+    border-gray-200
+
+    bg-gray-50
+
+    text-center
+  "
+>
+
+  <div className="text-2xl">
+    📦
+  </div>
+
+  <div className="mt-3 font-medium text-gray-700">
+    Abhi tak koi purchase nahi hui.
+  </div>
+
+  <div className="mt-1 text-sm text-gray-500">
+    Purchase hone par yahan dikhegi.
+  </div>
+
+</div>
   ) : (
-    <div className="space-y-1">
+    <div className="mt-5 space-y-3">
 
       {purchases.map((purchase: any, index: number) => (
 
         <div
           key={purchase.id}
-          className="border-b py-2 flex justify-between hover:bg-gray-50 transition"
+          className="
+flex
+items-center
+justify-between
+
+rounded-xl
+
+border
+border-gray-200
+
+px-4
+py-3
+
+transition-all
+duration-200
+
+hover:border-blue-200
+hover:bg-blue-50
+hover:shadow-sm
+"
         >
 
           <span className="text-sm">
@@ -513,7 +937,21 @@ async function handleSubmit() {
   )}
 
   {purchases.length > 0 && (
-    <div className="mt-3 text-xs text-gray-500">
+    <div
+  className="
+    mt-6
+
+    rounded-xl
+
+    bg-blue-50
+
+    px-4
+    py-3
+
+    text-sm
+    text-blue-700
+  "
+>
       💡 Tip: Har purchase ka full breakdown, supplier aur items
       "Purchase History" section me available hoga.
     </div>
@@ -554,6 +992,8 @@ async function handleSubmit() {
 }}
 />
 
+
+    </div>
     </div>
   );
 }

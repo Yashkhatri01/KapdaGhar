@@ -11,6 +11,7 @@ import PurchaseItemsModal from "../components/PurchaseItemsModal";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useToast } from "../../../contexts/ToastContext";
+import Button from "../../../components/ui/button/Button";
 
 type Purchase = {
   id: number;
@@ -90,24 +91,13 @@ function PurchaseHistoryPage() {
       />
 
       <div className="flex justify-end">
-        <button
-          onClick={() => navigate("/purchases")}
-          className="
-            flex items-center gap-2
-            px-4 py-2
-            bg-blue-700
-            hover:bg-black
-            text-white
-            rounded-lg
-            font-medium
-            transition-all
-            shadow-sm
-            hover:shadow-md
-          "
-        >
-          <ArrowLeft size={18} />
-          Back to Purchases
-        </button>
+        <Button
+  onClick={() => navigate("/purchases")}
+  className="flex items-center gap-2"
+>
+  <ArrowLeft size={18} />
+  Back to Purchases
+</Button>
       </div>
 
       <div className="bg-white border rounded p-4">
