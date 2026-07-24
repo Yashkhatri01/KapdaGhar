@@ -109,7 +109,7 @@ async function getCustomerReturns() {
     `
   );
 
-  console.log("CUSTOMER RETURNS =>", data);
+
 
   return data;
 }

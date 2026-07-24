@@ -211,7 +211,6 @@ export function usePurchaseCart() {
 }))
     };
 
-    console.log("PURCHASE PAYLOAD →", payload);
 
     const response = await createPurchase(payload);
 

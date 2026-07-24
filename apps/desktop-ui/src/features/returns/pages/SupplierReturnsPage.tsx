@@ -85,7 +85,6 @@ function SupplierReturnsPage() {
           purchase.id
         );
 
-        console.log(items);
 
       setSelectedPurchase(
         fullPurchase.purchase

@@ -84,7 +84,6 @@ async function loadSaleForEdit() {
   if (!editingSaleId) return;
   const data = await getSale(editingSaleId);
 
-console.log("EDIT RESPONSE", data);
 
 loadCart(
   data.items,

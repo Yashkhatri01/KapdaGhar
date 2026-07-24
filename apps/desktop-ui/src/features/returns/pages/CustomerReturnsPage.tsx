@@ -102,7 +102,7 @@ const difference =
 }
 
 useEffect(() => {
-  console.log("SELECTED SALE STATE =>", selectedSale);
+  
 }, [selectedSale]);
 
   async function handleSaveReturn() {

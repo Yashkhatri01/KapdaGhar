@@ -148,7 +148,7 @@ function updateSellingPrice(id: number, price: number) {
     quantity: i.quantity,
   }))
 );
-console.log("LOAD CART", items);
+
   setPaymentMethod(payment);
 }
 
@@ -192,7 +192,7 @@ console.log("LOAD CART", items);
   }
 
   setLoading(true);
-    console.log(cart);
+    
   try {
     const subtotal = cart.reduce((sum, i) => {
   const sellingPrice =
@@ -230,15 +230,11 @@ console.log("LOAD CART", items);
 })
 };
 
-console.log("SALE PAYLOAD →", salePayload);
-console.log("CART →", cart);
-console.log("SALE ID →", saleId);
 
 const apiRes = saleId
   ? await updateSale(saleId, salePayload)
   : await createSale(salePayload);
 
-console.log("API RESPONSE →", apiRes);
 
 if (!apiRes) {
   throw new Error("Server se empty response aaya hai");
